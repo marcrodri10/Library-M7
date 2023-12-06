@@ -14,10 +14,10 @@
                 'title'=>'PHP2324',
                 'user'=>'Linus'
             ];
-
-            //$users = Registry::get('database')->selectAll('users');
+            $users = Registry::get('database')->selectAll('Users');
             echo View::render('home',$data);
             
         }
+
         
     }
