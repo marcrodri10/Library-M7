@@ -3,7 +3,7 @@
 ?>
 <body>
     <h1>ONLINE LIBRARY M7</h1>
-    <a href="#">Log in</a>
-    <a href="register/index">Register</a>
+    <a href="login">Login</a>
+    <a href="register">Register</a>
 </body>
 </html>

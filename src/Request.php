@@ -11,7 +11,8 @@
         protected $arrURI;
 
         function __construct()
-        {
+        {   
+            $this->setMethod($_SERVER['REQUEST_METHOD']);      
             $url=$_SERVER['REQUEST_URI'];
             $this->arrURI=extract_path_elements($url);
             $this->setApi(false);
@@ -22,12 +23,13 @@
             elseif($this->arrURI[0]=="api"){
                 $this->setApi(true);
                 $this->arrURI=array_slice( $this->arrURI,1);
+                
                 $this->extractURI();
             }else{
-                $this->arrURI=array_slice( $this->arrURI,0); 
+                $this->arrURI=array_slice( $this->arrURI,0);
                 $this->extractURI();
             }
-           $this->setMethod($_SERVER['REQUEST_METHOD']);            
+                 
         }
         private function extractURI(){
             //estudi de casos possibles?
@@ -49,13 +51,16 @@
                    
                     $this->setController($this->arrURI[0]);
                     $this->setAction($this->arrURI[1]);
+                    if($this->method == "POST"){
+                        $this->setParam(implode('/',$_POST));
+                    }
                     break;
                 default: //controller & action & params
                
                     $this->setController($this->arrURI[0]);
                     $this->setAction($this->arrURI[1]);
                     $this->setParam($this->arrURI[2]);
-                    breaK;
+                    break;
             }
         }
 
@@ -101,6 +106,7 @@
 
         public function setParam($param)
         {
+
                 $this->param = $param;
                 return $this;
         }
