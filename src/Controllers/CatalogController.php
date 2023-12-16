@@ -12,8 +12,17 @@
         }        
         
         function index(){
-            echo View::render('catalog');
+            $books = Registry::get('database')
+                ->selectAll('Books')
+                ->condition('available', 'Books', 1, '=')
+                ->get();
+            
+            echo View::render('catalog', [
+                "books" => $books,
+            ]);
+            
         }
+
 
         function edit(){
 

@@ -24,8 +24,8 @@
             ];
 
             $userDb = Registry::get('database')
-                ->select('users', $fields)
-                ->condition('username', 'users', $fields['username'], '=')
+                ->select('Users', $fields)
+                ->condition('username', 'Users', $fields['username'], '=')
                 ->get();
            
             if($fields['username'] == $userDb[0]['username']){

@@ -16,8 +16,9 @@
         }
 
         function edit(){
-
+            
             $params = explode("/", $this->request->getParam());
+            
             if($params[2] == $params[3]){
                 $fields = [
                     'username' => $params[0],
@@ -25,12 +26,12 @@
                     'email' => $params[1],
                     'role' => 'reader',
                 ];
+            
                 
-                Registry::get('database')->insert('users', $fields);
+                Registry::get('database')->insert('Users', $fields);
                 header('Location:/login');
             }
-            
-            
+
         }
        
     }
