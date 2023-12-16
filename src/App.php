@@ -52,7 +52,7 @@
           $handle=opendir($dir);
           while(($entry=readdir($handle))!=false){
             if($entry!='.' && $entry!='..'){
-              $routes[]=strtolower(substr($entry,0,-14));
+              $routes[]=lcfirst(substr($entry,0,-14));
             }
           }
           return $routes;

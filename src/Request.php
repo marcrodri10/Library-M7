@@ -48,12 +48,14 @@
                     $this->setAction('index');
                     break;
                 case 2://controller  & action
-                   
+                    
                     $this->setController($this->arrURI[0]);
                     $this->setAction($this->arrURI[1]);
+                    
                     if($this->method == "POST"){
                         $this->setParam(implode('/',$_POST));
                     }
+                    
                     break;
                 default: //controller & action & params
                
