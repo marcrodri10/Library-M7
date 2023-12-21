@@ -16,4 +16,11 @@
         static function getSession($session){
             return $_SESSION[$session];
         }
+        static function deleteSession($session){
+            unset($_SESSION[$session]);
+        }
+
+        static function checkSession($session){
+            return isset($_SESSION[$session]);
+        }
     }
