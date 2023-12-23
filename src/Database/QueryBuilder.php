@@ -29,7 +29,7 @@ class QueryBuilder{
         return $this;
     }
     public function select($table, $fields){
-        $columns = implode(', ', array_keys($fields));
+        $columns = implode(', ', $fields);
         $this->query = "SELECT $columns FROM {$table}";
         
         return $this;
@@ -37,6 +37,7 @@ class QueryBuilder{
     public function condition(string $conditionFieldName, string $table, $value, string $symbol)
     {
         if($symbol == '=') $this->whereClause =  " WHERE $table.$conditionFieldName = '$value'";
+        else if($symbol == 'like') $this->whereClause = " WHERE $table.$conditionFieldName LIKE '%$value%'";
         else $this->whereClause =  " WHERE $table.$conditionFieldName != '$value'";
         
         $this->query .= $this->whereClause;
@@ -47,17 +48,30 @@ class QueryBuilder{
     public function insert(string $table, array $fields){
         $columns = implode(', ', array_keys($fields));
         
-        
         $values = array_map(function($value){
             return is_string($value) ? "'" . $value ."'" : $value;
         }, $fields);
 
+       
         $values = implode(', ', array_values($values));
-
-        $statement = $this->pdo->prepare("insert into {$table} ({$columns}) values ({$values})");
+        
+        $this->query = "insert into {$table} ({$columns}) values ({$values})";
+        
+        $statement = $this->pdo->prepare($this->query);
 
         $statement->execute();
 
+    }
+
+    public function update(string $table, array $fields){
+        $this->query = "UPDATE {$table} SET ";
+        
+        foreach($fields as $field => $value){
+            $this->query .= $field ." = '". $value."', ";
+        }
+        $this->query = rtrim($this->query, ', ');
+        
+        return $this;
     }
     public function get() {
         $statement = $this->pdo->prepare($this->query);
