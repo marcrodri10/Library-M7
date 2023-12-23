@@ -10,8 +10,11 @@
             $this->id=session_id();
         }
 
-        static function setSession($session, $value){
-            $_SESSION[$session] = $value;
+        static function setSession($session, $value, $sessionName = null){
+            if($sessionName){
+                $_SESSION[$session][$sessionName] = $value;
+            }
+            else $_SESSION[$session] = $value;
         }
         static function getSession($session){
             return $_SESSION[$session];
