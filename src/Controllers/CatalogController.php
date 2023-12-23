@@ -4,6 +4,8 @@
     use App\Controller;
     use App\View;
     use App\Registry;
+    use App\Session;
+
     class CatalogController extends Controller {
       
         function __construct($session,$request)
@@ -12,10 +14,25 @@
         }        
         
         function index(){
-            $books = Registry::get('database')
-                ->selectAll('Books')
-                ->condition('available', 'Books', 1, '=')
-                ->get();
+            if(isset($_POST['search']) && $_POST['search'] != ''){
+                $books = Registry::get('database')
+                    ->selectAll('Books')
+                    ->condition('title', 'Books', $_POST['search'], 'like')
+                    ->get();
+                
+                    Session::setSession('search', $_POST['search']);
+
+            }
+            else {
+                $books = Registry::get('database')
+                    ->selectAll('Books')
+                    ->condition('available', 'Books', 1, '=')
+                    ->get();
+                
+                Session::deleteSession('search');
+            }
+            
+            
             
             echo View::render('catalog', [
                 "books" => $books,
@@ -23,9 +40,10 @@
             
         }
 
-
-        function edit(){
-
+        function suscriptionAlert(){
+            if(Session::getSession('user_suscription') == false || Session::getSession('user_suscription')['is_active'] == 0) header('Location:/catalog');
+            else echo 'siii';
         }
+
        
     }
