@@ -7,7 +7,7 @@
     use App\Registry;
     use DateTime;
     use DateInterval;
-    class SuscriptionsController extends Controller {
+    class SubscriptionsController extends Controller {
       
         function __construct($session,$request)
         {
@@ -15,15 +15,15 @@
         }        
         
         function index(){
-            echo View::render('suscriptions');
+            echo View::render('subscriptions');
         }
 
         function edit(){
             
-            if(Session::getSession('user_suscription') === false){
+            if(Session::getSession('user_subscription') === false){
                 $currentDate = new DateTime();
 
-                if($_POST['suscription'] == 'trial'){
+                if($_POST['subscription'] == 'trial'){
                 
                     $fields = [
                         'user_id' => Session::getSession('user_data')['user_id'],
@@ -34,7 +34,7 @@
                     ];
     
                 }
-                else if($_POST['suscription'] == 'year'){
+                else if($_POST['subscription'] == 'year'){
                 
                     $fields = [
                         'user_id' => Session::getSession('user_data')['user_id'],
@@ -46,15 +46,15 @@
                     
                 }
 
-                Registry::get('database')->insert('Suscriptions', $fields);
+                Registry::get('database')->insert('Subscriptions', $fields);
 
                 
                 
             
             }
-            else if(Session::getSession('user_suscription') !== false){
+            else if(Session::getSession('user_subscription') !== false){
                 
-                if(Session::getSession('user_suscription')['is_active'] == 0){
+                if(Session::getSession('user_subscription')['is_active'] == 0){
                     $currentDate = new DateTime();
 
                     $fields = [
@@ -66,61 +66,61 @@
                     ];
 
                     Registry::get('database')
-                        ->update('suscriptions', $fields)
-                        ->condition('user_id', 'suscriptions', Session::getSession('user_data')['user_id'], '=')
+                        ->update('subscriptions', $fields)
+                        ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
                         ->get();
                     
                 }
                 else {
-                    if($_POST['suscription'] == 'cancel'){
+                    if($_POST['subscription'] == 'cancel'){
                         Registry::get('database')
-                            ->update('suscriptions', ['is_active' => 0])
-                            ->condition('user_id', 'suscriptions', Session::getSession('user_data')['user_id'], '=')
+                            ->update('subscriptions', ['is_active' => 0])
+                            ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
                             ->get();
                     
-                        Session::setSession('user_suscription', 0, 'is_active');
+                        Session::setSession('user_subscription', 0, 'is_active');
                     }
                     
                 }
             }
-            $userSuscription = Registry::get('database')
-                ->selectAll('Suscriptions')
-                ->condition('user_id', 'Suscriptions', Session::getSession('user_data')['user_id'], '=')
+            $userSubscription = Registry::get('database')
+                ->selectAll('Subscriptions')
+                ->condition('user_id', 'Subscriptions', Session::getSession('user_data')['user_id'], '=')
                 ->get();
             
-            Session::setSession('user_suscription', $userSuscription[0]);
+            Session::setSession('user_subscription', $userSubscription[0]);
 
-            header('Location:/suscriptions');
+            header('Location:/subscriptions');
 
         }
         function prueba(){
-            if($_POST['suscription'] != 'cancel'){
+            if($_POST['subscription'] != 'cancel'){
                 $this->showPayment();
             }
             else $this->cancel();
         }
         function showPayment(){
-            $_COOKIE['suscription'] = $_POST['suscription'];
+            $_COOKIE['subscription'] = $_POST['subscription'];
             include_once 'src/views/payment.tpl.php';
         }
 
         function cancel(){
-            if($_POST['suscription'] == 'cancel'){
+            if($_POST['subscription'] == 'cancel'){
                 Registry::get('database')
-                    ->update('suscriptions', ['is_active' => 0])
-                    ->condition('user_id', 'suscriptions', Session::getSession('user_data')['user_id'], '=')
+                    ->update('subscriptions', ['is_active' => 0])
+                    ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
                     ->get();
             
-                Session::setSession('user_suscription', 0, 'is_active');
+                Session::setSession('user_subscription', 0, 'is_active');
             }
-            header('Location:/suscriptions');
+            header('Location:/subscriptions');
         }
         function payment(){
             
             $type = explode('-', $_POST['payment']);
             if($type[0] == 'pay'){
                 
-                if(Session::getSession('user_suscription') === false){
+                if(Session::getSession('user_subscription') === false){
                     $currentDate = new DateTime();
     
                     if($type[1] == 'trial'){
@@ -146,14 +146,14 @@
                         
                     }
     
-                    Registry::get('database')->insert('Suscriptions', $fields);
+                    Registry::get('database')->insert('Subscriptions', $fields);
                     
                     
                 }
 
-                else if(Session::getSession('user_suscription') !== false){
+                else if(Session::getSession('user_subscription') !== false){
                     
-                    if(Session::getSession('user_suscription')['is_active'] == 0){
+                    if(Session::getSession('user_subscription')['is_active'] == 0){
                         $currentDate = new DateTime();
     
                         $fields = [
@@ -165,16 +165,16 @@
                         ];
     
                         Registry::get('database')
-                            ->update('suscriptions', $fields)
-                            ->condition('user_id', 'suscriptions', Session::getSession('user_data')['user_id'], '=')
+                            ->update('subscriptions', $fields)
+                            ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
                             ->get();
                         
                     }
 
                 }
-                $userSuscription = Registry::get('database')
-                    ->selectAll('Suscriptions')
-                    ->condition('user_id', 'Suscriptions', Session::getSession('user_data')['user_id'], '=')
+                $userSubscription = Registry::get('database')
+                    ->selectAll('Subscriptions')
+                    ->condition('user_id', 'Subscriptions', Session::getSession('user_data')['user_id'], '=')
                     ->get();
 
                 $paymentFields = [
@@ -185,11 +185,11 @@
                 Registry::get('database')
                     ->insert('payments', $paymentFields); 
                 
-                Session::setSession('user_suscription', $userSuscription[0]);
+                Session::setSession('user_subscription', $userSubscription[0]);
     
                 
             }
-            header('Location:/suscriptions');
+            header('Location:/subscriptions');
         }
        
     }

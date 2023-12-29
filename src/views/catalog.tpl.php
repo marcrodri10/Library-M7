@@ -4,7 +4,7 @@ use App\Session;
 
 include_once 'partials/header.tpl.php';
 
-if(Session::getSession('user_suscription') == false || Session::getSession('user_suscription')['is_active'] == 0) include_once 'partials/modalSuscription.tpl.php';
+if(Session::getSession('user_subscription') == false || Session::getSession('user_subscription')['is_active'] == 0) include_once 'partials/modalSubscription.tpl.php';
 ?>
 
 <body>
@@ -12,7 +12,7 @@ if(Session::getSession('user_suscription') == false || Session::getSession('user
         <h1>Library Catalog</h1>
         <nav>
             <a href="/updateUserProfile">Edit Account</a>
-            <a href="/suscriptions">Suscriptions</a>
+            <a href="/subscriptions">Subscriptions</a>
         </nav>
         <form action="/catalog" method="post">
         <div class="search mb-5">
@@ -34,7 +34,7 @@ if(Session::getSession('user_suscription') == false || Session::getSession('user
                         <p><strong>Author:</strong> ".$book['author']."</p>                      
                         <p><strong>Genre:</strong> ".$book['genre']."</p>
                         <p><strong>Price:</strong> ".$book['price']."€</p>
-                        <a href='/catalog/suscriptionAlert'>Read</a>";
+                        <a href='/catalog/subscriptionAlert'>Read</a>";
                 echo "</div>";
             }
         ?>

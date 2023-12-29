@@ -29,25 +29,25 @@
                 ->condition('username', 'Users', $fields['username'], '=')
                 ->get();
             
-            $userSuscription = Registry::get('database')
-                ->selectAll('Suscriptions')
-                ->condition('user_id', 'Suscriptions', Session::getSession('user_data')['user_id'], '=')
+            $userSubscription = Registry::get('database')
+                ->selectAll('Subscriptions')
+                ->condition('user_id', 'Subscriptions', Session::getSession('user_data')['user_id'], '=')
                 ->get();
             
-            Session::setSession('user_suscription', sizeof($userSuscription) > 0 ? $userSuscription[0] : false);
+            Session::setSession('user_subscription', sizeof($userSubscription) > 0 ? $userSubscription[0] : false);
             
             $currentDate = new \DateTime();
             
     
-            if(Session::getSession('user_suscription') !== false && $currentDate->format('Y-m-d') > Session::getSession('user_suscription')['finish_date']){
+            if(Session::getSession('user_subscription') !== false && $currentDate->format('Y-m-d') > Session::getSession('user_subscription')['finish_date']){
                 Registry::get('database')
-                    ->update('Suscriptions', [
+                    ->update('Subscriptions', [
                         'is_active' => 0,
                     ])
-                    ->condition('user_id', 'Suscriptions', Session::getSession('user_data')['user_id'], '=')
+                    ->condition('user_id', 'Subscriptions', Session::getSession('user_data')['user_id'], '=')
                     ->get();
                 
-                Session::setSession('user_suscription', 0, 'is_active');
+                Session::setSession('user_subscription', 0, 'is_active');
                 
             }
 

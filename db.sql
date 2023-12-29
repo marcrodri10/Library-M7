@@ -56,7 +56,7 @@ CREATE TABLE Payments (
 )
 
 
-CREATE TABLE Suscriptions (
+CREATE TABLE Subscriptions (
     suscription_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     start_date DATE NOT NULL,

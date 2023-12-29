@@ -40,8 +40,8 @@
             
         }
 
-        function suscriptionAlert(){
-            if(Session::getSession('user_suscription') == false || Session::getSession('user_suscription')['is_active'] == 0) header('Location:/catalog');
+        function subscriptionAlert(){
+            if(Session::getSession('user_subscription') == false || Session::getSession('user_subscription')['is_active'] == 0) header('Location:/catalog');
             else echo 'siii';
         }
 
