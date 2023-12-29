@@ -16,7 +16,7 @@
                 Maybe you would like to suscribe to read all the catalog.
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
                 <button type="submit" class="btn btn-primary"><?php if(Session::getSession('user_suscription') !== false){
                     echo 'Suscription plans';
                 }

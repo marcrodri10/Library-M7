@@ -12,6 +12,7 @@ if(Session::getSession('user_suscription') == false || Session::getSession('user
         <h1>Library Catalog</h1>
         <nav>
             <a href="/updateUserProfile">Edit Account</a>
+            <a href="/suscriptions">Suscriptions</a>
         </nav>
         <form action="/catalog" method="post">
         <div class="search mb-5">
