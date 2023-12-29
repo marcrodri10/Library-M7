@@ -1,4 +1,5 @@
--- Active: 1702401604515@@127.0.0.1@3306@library
+-- Active: 1703865360951@@127.0.0.1@3306@library
+
 CREATE DATABASE library;
 USE library;
 
@@ -61,6 +62,7 @@ CREATE TABLE Suscriptions (
     start_date DATE NOT NULL,
     finish_date DATE NOT NULL,
     is_active TINYINT NOT NULL,
+    type VARCHAR(255) NOT NULL,
     CONSTRAINT fk_suscription_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
 )
 
