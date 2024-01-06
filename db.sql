@@ -75,6 +75,15 @@ CREATE TABLE Files (
     CONSTRAINT fk_files_book FOREIGN KEY (book_id) REFERENCES Books(book_id)
 )
 
+CREATE TABLE CARDS (
+    card_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    card VARCHAR(255) NOT NULL,
+    cvv INT NOT NULL,
+    user_id INT NOT NULL,
+    CONSTRAINT fk_card_user FOREIGN KEY (user_id) REFERENCES Users(user_id)
+)
+
 INSERT INTO FILES (book_id, route) VALUES 
     (1, 'book_1'),
     (2, 'book_2'),
