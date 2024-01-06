@@ -7,6 +7,7 @@
     use App\Registry;
     use DateTime;
     use DateInterval;
+    use App\Model\Subscription;
     class SubscriptionsController extends Controller {
       
         function __construct($session,$request)
@@ -18,104 +19,7 @@
             echo View::render('subscriptions');
         }
 
-        function edit(){
-            
-            if(Session::getSession('user_subscription') === false){
-                $currentDate = new DateTime();
-
-                if($_POST['subscription'] == 'trial'){
-                
-                    $fields = [
-                        'user_id' => Session::getSession('user_data')['user_id'],
-                        'start_date' => $currentDate->format('Y-m-d'),
-                        'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
-                        'is_active' => 1,
-                        'type' => 'trial',
-                    ];
-    
-                }
-                else if($_POST['subscription'] == 'year'){
-                
-                    $fields = [
-                        'user_id' => Session::getSession('user_data')['user_id'],
-                        'start_date' => $currentDate->format('Y-m-d'),
-                        'finish_date' => $currentDate->add(new DateInterval('P1Y'))->format('Y-m-d'),
-                        'is_active' => 1,
-                        'type' => 'year',
-                    ];
-                    
-                }
-
-                Registry::get('database')->insert('Subscriptions', $fields);
-
-                
-                
-            
-            }
-            else if(Session::getSession('user_subscription') !== false){
-                
-                if(Session::getSession('user_subscription')['is_active'] == 0){
-                    $currentDate = new DateTime();
-
-                    $fields = [
-                        'user_id' => Session::getSession('user_data')['user_id'],
-                        'start_date' => $currentDate->format('Y-m-d'),
-                        'finish_date' => $currentDate->add(new DateInterval('P1Y'))->format('Y-m-d'),
-                        'is_active' => 1,
-                        'type' => 'year',
-                    ];
-
-                    Registry::get('database')
-                        ->update('subscriptions', $fields)
-                        ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
-                        ->get();
-                    
-                }
-                else {
-                    if($_POST['subscription'] == 'cancel'){
-                        Registry::get('database')
-                            ->update('subscriptions', ['is_active' => 0])
-                            ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
-                            ->get();
-                    
-                        Session::setSession('user_subscription', 0, 'is_active');
-                    }
-                    
-                }
-            }
-            $userSubscription = Registry::get('database')
-                ->selectAll('Subscriptions')
-                ->condition('user_id', 'Subscriptions', Session::getSession('user_data')['user_id'], '=')
-                ->get();
-            
-            Session::setSession('user_subscription', $userSubscription[0]);
-
-            header('Location:/subscriptions');
-
-        }
-        function prueba(){
-            if($_POST['subscription'] != 'cancel'){
-                $this->showPayment();
-            }
-            else $this->cancel();
-        }
-        function showPayment(){
-            $_COOKIE['subscription'] = $_POST['subscription'];
-            include_once 'src/views/payment.tpl.php';
-        }
-
-        function cancel(){
-            if($_POST['subscription'] == 'cancel'){
-                Registry::get('database')
-                    ->update('subscriptions', ['is_active' => 0])
-                    ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
-                    ->get();
-            
-                Session::setSession('user_subscription', 0, 'is_active');
-            }
-            header('Location:/subscriptions');
-        }
-        function payment(){
+        function subscribe(){
             
             $type = explode('-', $_POST['payment']);
             if($type[0] == 'pay'){
@@ -126,7 +30,7 @@
                     if($type[1] == 'trial'){
                     
                         $fields = [
-                            'user_id' => Session::getSession('user_data')['user_id'],
+                            'user_id' => Session::getSession('user_data')->getId(),
                             'start_date' => $currentDate->format('Y-m-d'),
                             'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
                             'is_active' => 1,
@@ -137,7 +41,7 @@
                     else if($type[1] == 'year'){
                     
                         $fields = [
-                            'user_id' => Session::getSession('user_data')['user_id'],
+                            'user_id' => Session::getSession('user_data')->getId(),
                             'start_date' => $currentDate->format('Y-m-d'),
                             'finish_date' => $currentDate->add(new DateInterval('P1Y'))->format('Y-m-d'),
                             'is_active' => 1,
@@ -152,12 +56,12 @@
                 }
 
                 else if(Session::getSession('user_subscription') !== false){
-                    
-                    if(Session::getSession('user_subscription')['is_active'] == 0){
+                   
+                    if(Session::getSession('user_subscription')->getIsActive() == 0){
                         $currentDate = new DateTime();
     
                         $fields = [
-                            'user_id' => Session::getSession('user_data')['user_id'],
+                            'user_id' => Session::getSession('user_data')->getId(),
                             'start_date' => $currentDate->format('Y-m-d'),
                             'finish_date' => $currentDate->add(new DateInterval('P1Y'))->format('Y-m-d'),
                             'is_active' => 1,
@@ -166,7 +70,7 @@
     
                         Registry::get('database')
                             ->update('subscriptions', $fields)
-                            ->condition('user_id', 'subscriptions', Session::getSession('user_data')['user_id'], '=')
+                            ->condition('user_id', 'subscriptions', Session::getSession('user_data')->getId(), '=')
                             ->get();
                         
                     }
@@ -174,22 +78,32 @@
                 }
                 $userSubscription = Registry::get('database')
                     ->selectAll('Subscriptions')
-                    ->condition('user_id', 'Subscriptions', Session::getSession('user_data')['user_id'], '=')
+                    ->condition('user_id', 'Subscriptions', Session::getSession('user_data')->getId(), '=')
                     ->get();
 
+                $currentDate = new DateTime();
                 $paymentFields = [
-                    'user_id' => Session::getSession('user_data')['user_id'],
+                    'user_id' => Session::getSession('user_data')->getId(),
                     'amount' => $type[2],
                     'date' => $currentDate->format('Y-m-d'),
                 ];
                 Registry::get('database')
                     ->insert('payments', $paymentFields); 
                 
-                Session::setSession('user_subscription', $userSubscription[0]);
+                try{
+                    $subscription = new Subscription($userSubscription[0]->user_id, $userSubscription[0]->start_date, 
+                    $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
+                }
+                catch(\Exception $e){
+                    echo $e->getMessage();
+                }
+                Session::setSession('user_subscription', $subscription);
     
                 
             }
             header('Location:/subscriptions');
+
         }
+        
        
     }

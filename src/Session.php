@@ -12,7 +12,8 @@
 
         static function setSession($session, $value, $sessionName = null){
             if($sessionName){
-                $_SESSION[$session][$sessionName] = $value;
+                var_dump($_SESSION[$session]);
+                $_SESSION[$session]->$sessionName = $value;
             }
             else $_SESSION[$session] = $value;
         }

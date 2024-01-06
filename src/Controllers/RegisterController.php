@@ -4,6 +4,8 @@
     use App\Controller;
     use App\View;
     use App\Registry;
+
+    use App\Model\User;
     class RegisterController extends Controller {
       
         function __construct($session,$request)
@@ -17,20 +19,29 @@
 
         function edit(){
             
-            $params = explode("/", $this->request->getParam());
-            
-            if($params[2] == $params[3]){
-                $fields = [
-                    'username' => $params[0],
-                    'password' => password_hash($params[2], PASSWORD_DEFAULT),
-                    'email' => $params[1],
-                    'role' => 'reader',
-                ];
-            
+            try {
                 
-                Registry::get('database')->insert('Users', $fields);
-                header('Location:/login');
+                if($_POST['password'] == $_POST['confirmpass']){
+                    
+                    $user = new User($_POST['username'], $_POST['password'], $_POST['email'], 'reader');
+                    $fields = [
+                        'username' => $_POST['username'],
+                        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                        'email' => $_POST['email'],
+                        'role' => 'reader',
+                    ];
+                
+                    
+                    Registry::get('database')->insert('Users', $fields);
+                    header('Location:/login');
+                }
             }
+            catch(\Exception $e){
+                echo $e->getMessage();
+                //header('Location:/register');
+            }
+           
+            
 
         }
        

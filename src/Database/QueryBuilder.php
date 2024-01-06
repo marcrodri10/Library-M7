@@ -76,6 +76,6 @@ class QueryBuilder{
     public function get() {
         $statement = $this->pdo->prepare($this->query);
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $statement->fetchAll(\PDO::FETCH_CLASS);
     }
 }

@@ -7,7 +7,7 @@ use App\Session;
 <body>
     <div class="vh-100 register-form h-100 d-flex justify-content-center align-items-center flex-column">
         <h1>Subscriptions plans</h1>
-        <form action="/subscriptions/prueba" method="post">
+        <form action="/payment/manageSubscription" method="post">
         <div class="row">
             <?php 
     
@@ -36,14 +36,14 @@ use App\Session;
             <?php 
   
             if(Session::getSession('user_subscription') !== false ){
-                if(Session::getSession('user_subscription')['is_active'] == 1){
+                if(Session::getSession('user_subscription')->getIsActive() == 1){
                     echo '<div class="col-sm-12 mb-3 mb-sm-0">
                         <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Your subscription</h5>
-                            <p class="card-text">Started: '.Session::getSession('user_subscription')['start_date'].'</p>
-                            <p class="card-text">Ends: '.Session::getSession('user_subscription')['finish_date'].'</p>
-                            <p class="card-text">Type: '.ucfirst(Session::getSession('user_subscription')['type']).'</p>
+                            <p class="card-text">Started: '.Session::getSession('user_subscription')->getStartDate().'</p>
+                            <p class="card-text">Ends: '.Session::getSession('user_subscription')->getFinishDate().'</p>
+                            <p class="card-text">Type: '.ucfirst(Session::getSession('user_subscription')->getType()).'</p>
                             <button class="btn btn-danger" name="subscription" value="cancel">Cancel Subscription</button>
                         </div>
                         </div>

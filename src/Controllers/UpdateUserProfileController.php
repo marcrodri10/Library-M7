@@ -5,6 +5,7 @@
     use App\Controller;
     use App\View;
     use App\Registry;
+    use App\Model\User;
     class UpdateUserProfileController extends Controller {
       
         function __construct($session,$request)
@@ -20,18 +21,29 @@
         }
 
         function edit(){
-            $params = explode("/", $this->request->getParam());
             
             $fields = [
-                'username' => $params[0],
-                'email' => $params[1],
+                'username' => $_POST['username'],
+                'email' => $_POST['email'],
             ];
 
             Registry::get('database')
                 ->update('users', $fields)
                 ->get();
 
-            Session::setSession('user_data', $fields);
+            $userDb = Registry::get('database')
+                ->selectAll('Users')
+                ->condition('username', 'Users', $fields['username'], '=')
+                ->get();
+            
+            try{
+                $user = new User($userDb[0]['username'], $userDb[0]['password'], $userDb[0]['email'], $userDb[0]['role'], $userDb[0]['user_id']);
+            } 
+            catch(\Exception $e){
+                echo $e->getMessage();
+            }  
+            
+            Session::setSession('user_data', $user);
             
             header('Location: /updateUserProfile');
 
