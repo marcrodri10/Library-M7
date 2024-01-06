@@ -8,6 +8,9 @@
     use App\Model\User;
     use DateTime;
     use DateInterval;
+    use App\Model\Card;
+use Exception;
+
     class PaymentController extends Controller {
       
         function __construct($session,$request)
@@ -15,9 +18,6 @@
             parent::__construct($session,$request);
         }        
         
-        function index(){
-            echo View::render('payment');
-        }
 
         function manageSubscription(){
             if($_POST['subscription'] != 'cancel'){
@@ -26,8 +26,28 @@
             else $this->cancel();
         }
         function showPayment(){
-            $_COOKIE['subscription'] = $_POST['subscription'];
-            include_once 'src/views/payment.tpl.php';
+            $userCard = Registry::get('database')
+                ->selectAll('cards')
+                ->condition('user_id', 'cards', Session::getSession('user_data')->getId(), '=')
+                ->get();
+            
+            try{
+               
+                if(!empty($userCard[0]->card) && !empty($userCard[0]->name) && !empty($userCard[0]->cvv)) {
+                   
+                    $userCard = new Card($userCard[0]->card_id, $userCard[0]->name, 
+                    $userCard[0]->card,$userCard[0]->cvv);
+                }
+                else $userCard = [];
+                echo View::render('payment', [
+                    'subscription' => $_POST['subscription'],
+                    'userCard' => $userCard,
+                ]);
+            }
+            catch(Exception $e){
+                echo $e->getMessage();
+            }
+            
         }
 
         function cancel(){

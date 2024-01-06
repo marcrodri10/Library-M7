@@ -20,13 +20,30 @@
         }
 
         function subscribe(){
+            $card_fields = [
+                'name' => $_POST['name'],
+                'card' => $_POST['card'],
+                'cvv' => $_POST['cvv'],
+                'user_id' => Session::getSession('user_data')->getId()
+            ];
+            
+            $userCard = Registry::get('database')
+                ->selectAll('cards')
+                ->condition('user_id', 'cards', Session::getSession('user_data')->getId(), '=')
+                ->get();
+            
+            if(sizeof($userCard) == 0){
+                Registry::get('database')
+                    ->insert('cards', $card_fields);
+            }
+            
             
             $type = explode('-', $_POST['payment']);
             if($type[0] == 'pay'){
                 
                 if(Session::getSession('user_subscription') === false){
                     $currentDate = new DateTime();
-    
+                    
                     if($type[1] == 'trial'){
                     
                         $fields = [
@@ -38,17 +55,18 @@
                         ];
         
                     }
-                    else if($type[1] == 'year'){
+                    else if($type[1] == 'month'){
                     
                         $fields = [
                             'user_id' => Session::getSession('user_data')->getId(),
                             'start_date' => $currentDate->format('Y-m-d'),
-                            'finish_date' => $currentDate->add(new DateInterval('P1Y'))->format('Y-m-d'),
+                            'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
                             'is_active' => 1,
-                            'type' => 'year',
+                            'type' => 'month',
                         ];
                         
                     }
+                    
     
                     Registry::get('database')->insert('Subscriptions', $fields);
                     
@@ -59,21 +77,36 @@
                    
                     if(Session::getSession('user_subscription')->getIsActive() == 0){
                         $currentDate = new DateTime();
-    
+                        
                         $fields = [
                             'user_id' => Session::getSession('user_data')->getId(),
                             'start_date' => $currentDate->format('Y-m-d'),
-                            'finish_date' => $currentDate->add(new DateInterval('P1Y'))->format('Y-m-d'),
+                            'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
                             'is_active' => 1,
-                            'type' => 'year',
+                            'type' => 'month',
                         ];
     
-                        Registry::get('database')
-                            ->update('subscriptions', $fields)
-                            ->condition('user_id', 'subscriptions', Session::getSession('user_data')->getId(), '=')
-                            ->get();
                         
                     }
+                    else {
+                        if($type[1] == 'renew'){
+                            $finish = new DateTime(Session::getSession('user_subscription')->getFinishDate());
+                            
+                            $fields = [
+                                'user_id' => Session::getSession('user_data')->getId(),
+                                'start_date' => $finish->format('Y-m-d'),
+                                'finish_date' => $finish->add(new DateInterval('P1M'))->format('Y-m-d'),
+                                'is_active' => 1,
+                                'type' => 'month',
+                            ];
+
+                            Session::deleteSession('days_to_finish');
+                        }
+                    }
+                    Registry::get('database')
+                        ->update('subscriptions', $fields)
+                        ->condition('user_id', 'subscriptions', Session::getSession('user_data')->getId(), '=')
+                        ->get();
 
                 }
                 $userSubscription = Registry::get('database')

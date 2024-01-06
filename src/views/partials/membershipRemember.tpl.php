@@ -8,13 +8,15 @@
     
     $days = $finish->diff($now);
     
-    $days = ($days->y)*365 + $days->d;
+    $days = ($days->y)*365 + $days->d + 1;
     
+    Session::setSession('days_to_finish', $days);
 
 ?>
 <div class="animated-div">
     <?php if($days <= 10){
     echo "<p>Your subscription will finish in $days days.</p>";
+    echo "<a href='/subscriptions' class='btn btn-primary'>RENEW</a>";
     } ?>
 </div>
 <script>

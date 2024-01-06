@@ -5,19 +5,21 @@ use App\Session;
 ?>
 
 <body>
+    <a href="/catalog">CATALOG</a>
     <div class="vh-100 register-form h-100 d-flex justify-content-center align-items-center flex-column">
         <h1>Subscriptions plans</h1>
         <form action="/payment/manageSubscription" method="post">
-        <div class="row">
+        
             <?php 
     
             if(Session::getSession('user_subscription') === false){
-                echo '<div class="col-sm-6 mb-3 mb-sm-0">
+                echo '<div class="row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
                         <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">1 year subscription</h5>
+                            <h5 class="card-title">1 month subscription</h5>
                             <p class="card-text">You will have access to our entire catalog.</p>
-                            <button class="btn btn-primary" name="subscription" value="year">Subscribe</button>
+                            <button class="btn btn-primary" name="subscription" value="month">Subscribe</button>
                         </div>
                         </div>
                     </div>';
@@ -37,7 +39,13 @@ use App\Session;
   
             if(Session::getSession('user_subscription') !== false ){
                 if(Session::getSession('user_subscription')->getIsActive() == 1){
-                    echo '<div class="col-sm-12 mb-3 mb-sm-0">
+                    if(Session::checkSession('days_to_finish') && Session::getSession('days_to_finish') <= 10){
+                        echo '<h2 class="text-align">Your subscription will finish in '. Session::getSession('days_to_finish') .' days</h2>
+                        <button class="btn btn-primary" name="subscription" value="renew">Renew subscription</button>';
+                    }
+                    
+                    echo '<div class="row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
                         <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Your subscription</h5>
@@ -53,9 +61,9 @@ use App\Session;
                     echo '<div class="col-sm-6 mb-3 mb-sm-0">
                         <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">1 year subscription</h5>
+                            <h5 class="card-title">1 month subscription</h5>
                             <p class="card-text">You will have access to our entire catalog.</p>
-                            <button class="btn btn-primary" name="subscription" value="year">Subscribe</button>
+                            <button class="btn btn-primary" name="subscription" value="month">Subscribe</button>
                         </div>
                         </div>
                     </div>';

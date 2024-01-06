@@ -40,8 +40,13 @@ else {
                         <p><strong>Author:</strong> ".$bookClass->getAuthor()."</p>                      
                         <p><strong>Genre:</strong> ".$bookClass->getGenre()."</p>
                         <p><strong>Price:</strong> ".$bookClass->getPrice()."€</p>";
+                        
                         if(file_exists("public/markdown/".$fileClass->getRoute().".md")){
-                            echo "<button onclick='cargarMarkdown(`public/markdown/" . $fileClass->getRoute() . ".md`)'>Read</button>";
+                            if(Session::getSession('user_subscription')->getIsActive() == 1){
+                                echo "<button class='btn btn-primary' onclick='cargarMarkdown(`public/markdown/" . $fileClass->getRoute() . ".md`)'>Read</button>";
+                            }
+                            else echo "<a href='/catalog' class='btn btn-primary'>Read</a>";
+                            
                         }
                         
                 echo "</div>";
