@@ -8,6 +8,7 @@
     use DateTime;
     use DateInterval;
     use App\Model\Subscription;
+    use App\Model\Payment;
     class SubscriptionsController extends Controller {
       
         function __construct($session,$request)
@@ -114,23 +115,30 @@
                     ->condition('user_id', 'Subscriptions', Session::getSession('user_data')->getId(), '=')
                     ->get();
 
-                $currentDate = new DateTime();
-                $paymentFields = [
-                    'user_id' => Session::getSession('user_data')->getId(),
-                    'amount' => $type[2],
-                    'date' => $currentDate->format('Y-m-d'),
-                ];
-                Registry::get('database')
-                    ->insert('payments', $paymentFields); 
                 
                 try{
+                    $currentDate = new DateTime();
+                    $payment = new Payment(Session::getSession('user_data')->getId(), $type[2], $currentDate->format('Y-m-d'));
+                    
+                    $paymentFields = [
+                        'user_id' => $payment->getUserId(),
+                        'amount' => $payment->getAmount(),
+                        'date' => $payment->getDate(),
+                    ];
+
+                    Registry::get('database')
+                        ->insert('payments', $paymentFields); 
+
                     $subscription = new Subscription($userSubscription[0]->user_id, $userSubscription[0]->start_date, 
                     $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
+
+                    Session::setSession('user_subscription', $subscription);
                 }
                 catch(\Exception $e){
                     echo $e->getMessage();
                 }
-                Session::setSession('user_subscription', $subscription);
+                
+                
     
                 
             }
