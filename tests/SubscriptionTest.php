@@ -50,7 +50,7 @@ class SubscriptionTest extends TestCase
             'card' => $_POST['card'],
             'cvv' => $_POST['cvv'],
             'user_id' => Session::getSession('user_data')->getId()
-        ];;
+        ];
  */
         // Realizar las aserciones sobre el resultado
         $this->assertEquals('Resultado simulado de la base de datos', $result);
