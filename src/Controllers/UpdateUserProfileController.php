@@ -28,7 +28,7 @@
             ];
 
             Registry::get('database')
-                ->update('users', $fields)
+                ->update('Users', $fields)
                 ->get();
 
             $userDb = Registry::get('database')
@@ -37,7 +37,8 @@
                 ->get();
             
             try{
-                $user = new User($userDb[0]['username'], $userDb[0]['password'], $userDb[0]['email'], $userDb[0]['role'], $userDb[0]['user_id']);
+                
+                $user = new User($userDb[0]->username, $userDb[0]->password, $userDb[0]->email, $userDb[0]->role, $userDb[0]->user_id);
             } 
             catch(\Exception $e){
                 echo $e->getMessage();

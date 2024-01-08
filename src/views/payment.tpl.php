@@ -13,26 +13,26 @@ if(isset($subscription)){
             <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Payment</h1>
-                <button type="submit" class="btn-close" data-bs-dismiss="modal" aria-label="Close" value="cancel"></button>
+                <a href="/subscriptions" class="btn-close" aria-label="Close" value="cancel"></a>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="name" name='name' value="<?php if($userCard !== []) echo $userCard->getName() ?>">
+                <input type="text" class="form-control" id="name" name='name' value="<?php if($userCard !== []) echo $userCard->getName() ?>" required>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">Card:</label>
-                <input type="text" class="form-control" id="card" name='card' value="<?php if($userCard !== []) echo $userCard->getCard() ?>" >
+                <input type="text" class="form-control" id="card" name='card' value="<?php if($userCard !== []) echo $userCard->getCard() ?>" required>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">CVV:</label>
-                <input type="text" class="form-control" id="cvv" name='cvv' value="<?php if($userCard !== []) echo $userCard->getCvv() ?>">
+                <input type="text" class="form-control" id="cvv" name='cvv' value="<?php if($userCard !== []) echo $userCard->getCvv() ?>" required>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">Amount:</label>
                 <input type="text" class="form-control" id="amount" name='amount' readonly value="<?php echo $amount ?> €">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" name="payment" value="cancel">Close</button>
+                <a href="/subscriptions" class="btn btn-danger" name="payment">Close</a>
                 <button type="submit" class="btn btn-primary"  name="payment" value="pay-<?php echo $subscription."-";echo $amount?>">Pay</button>
             </div>
             </div>

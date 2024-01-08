@@ -1,5 +1,5 @@
--- Active: 1703865360951@@127.0.0.1@3306@library
-
+-- Active: 1704732891023@@127.0.0.1@3306@library
+DROP DATABASE library;
 CREATE DATABASE library;
 USE library;
 
@@ -84,6 +84,18 @@ CREATE TABLE Cards (
     CONSTRAINT fk_card_user FOREIGN KEY (user_id) REFERENCES Users(user_id)
 )
 
+INSERT INTO Books (book_id, title, author, genre, price) VALUES
+(1, 'El señor de los anillos', 'J.R.R. Tolkien', 'Fantasía', 29.99),
+(2, 'Cien años de soledad', 'Gabriel García Márquez', 'Realismo mágico', 24.99),
+(3, '1984', 'George Orwell', 'Ciencia ficción', 19.99),
+(4, 'Orgullo y prejuicio', 'Jane Austen', 'Romance', 14.99),
+(5, 'Código Da Vinci', 'Dan Brown', 'Misterio', 27.99),
+(6, 'Harry Potter y la piedra filosofal', 'J.K. Rowling', 'Fantasía', 22.99),
+(7, 'Matar a un ruiseñor', 'Harper Lee', 'Drama', 18.99),
+(8, 'Crónicas de Narnia', 'C.S. Lewis', 'Fantasía', 26.99),
+(9, 'Juego de tronos', 'George R.R. Martin', 'Fantasía', 32.99),
+(10, 'El hobbit', 'J.R.R. Tolkien', 'Fantasía', 21.99);
+
 INSERT INTO Files (book_id, route) VALUES 
     (1, 'book_1'),
     (2, 'book_2'),
@@ -98,14 +110,3 @@ INSERT INTO Files (book_id, route) VALUES
 
 
 
-INSERT INTO Books (book_id, title, author, genre, price) VALUES
-(1, 'El señor de los anillos', 'J.R.R. Tolkien', 'Fantasía', 29.99),
-(2, 'Cien años de soledad', 'Gabriel García Márquez', 'Realismo mágico', 24.99),
-(3, '1984', 'George Orwell', 'Ciencia ficción', 19.99),
-(4, 'Orgullo y prejuicio', 'Jane Austen', 'Romance', 14.99),
-(5, 'Código Da Vinci', 'Dan Brown', 'Misterio', 27.99),
-(6, 'Harry Potter y la piedra filosofal', 'J.K. Rowling', 'Fantasía', 22.99),
-(7, 'Matar a un ruiseñor', 'Harper Lee', 'Drama', 18.99),
-(8, 'Crónicas de Narnia', 'C.S. Lewis', 'Fantasía', 26.99),
-(9, 'Juego de tronos', 'George R.R. Martin', 'Fantasía', 32.99),
-(10, 'El hobbit', 'J.R.R. Tolkien', 'Fantasía', 21.99);
