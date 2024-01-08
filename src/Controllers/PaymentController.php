@@ -27,8 +27,8 @@ use Exception;
         }
         function showPayment(){
             $userCard = Registry::get('database')
-                ->selectAll('cards')
-                ->condition('user_id', 'cards', Session::getSession('user_data')->getId(), '=')
+                ->selectAll('Cards')
+                ->condition('user_id', 'Cards', Session::getSession('user_data')->getId(), '=')
                 ->get();
             
             try{
@@ -53,8 +53,8 @@ use Exception;
         function cancel(){
             if($_POST['subscription'] == 'cancel'){
                 Registry::get('database')
-                    ->update('subscriptions', ['is_active' => 0])
-                    ->condition('user_id', 'subscriptions', Session::getSession('user_data')->getId(), '=')
+                    ->update('Subscriptions', ['is_active' => 0])
+                    ->condition('user_id', 'Subscriptions', Session::getSession('user_data')->getId(), '=')
                     ->get();
                 
                 Session::getSession('user_subscription')->setIsActive(0);

@@ -29,13 +29,13 @@
             ];
             
             $userCard = Registry::get('database')
-                ->selectAll('cards')
-                ->condition('user_id', 'cards', Session::getSession('user_data')->getId(), '=')
+                ->selectAll('Cards')
+                ->condition('user_id', 'Cards', Session::getSession('user_data')->getId(), '=')
                 ->get();
             
             if(sizeof($userCard) == 0){
                 Registry::get('database')
-                    ->insert('cards', $card_fields);
+                    ->insert('Cards', $card_fields);
             }
             
             
@@ -105,8 +105,8 @@
                         }
                     }
                     Registry::get('database')
-                        ->update('subscriptions', $fields)
-                        ->condition('user_id', 'subscriptions', Session::getSession('user_data')->getId(), '=')
+                        ->update('Subscriptions', $fields)
+                        ->condition('user_id', 'Subscriptions', Session::getSession('user_data')->getId(), '=')
                         ->get();
 
                 }
