@@ -4,7 +4,7 @@ CREATE DATABASE library;
 USE library;
 
 
-GRANT ALL PRIVILEGES ON LIBRARY.* TO 'Library'@'localhost';
+GRANT ALL PRIVILEGES ON LIBRARY.* TO 'library'@'localhost';
 
 
 CREATE TABLE Users (
@@ -75,7 +75,7 @@ CREATE TABLE Files (
     CONSTRAINT fk_files_book FOREIGN KEY (book_id) REFERENCES Books(book_id)
 )
 
-CREATE TABLE CARDS (
+CREATE TABLE Cards (
     card_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     card VARCHAR(255) NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE CARDS (
     CONSTRAINT fk_card_user FOREIGN KEY (user_id) REFERENCES Users(user_id)
 )
 
-INSERT INTO FILES (book_id, route) VALUES 
+INSERT INTO Files (book_id, route) VALUES 
     (1, 'book_1'),
     (2, 'book_2'),
     (3, 'book_3'),
@@ -98,7 +98,7 @@ INSERT INTO FILES (book_id, route) VALUES
 
 
 
-INSERT INTO Books (book_id, title, author, genre, available, price) VALUES
+INSERT INTO Books (book_id, title, author, genre, price) VALUES
 (1, 'El señor de los anillos', 'J.R.R. Tolkien', 'Fantasía', 29.99),
 (2, 'Cien años de soledad', 'Gabriel García Márquez', 'Realismo mágico', 24.99),
 (3, '1984', 'George Orwell', 'Ciencia ficción', 19.99),
