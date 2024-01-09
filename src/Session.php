@@ -27,4 +27,8 @@
         static function checkSession($session){
             return isset($_SESSION[$session]);
         }
+        static function destroySessions(){
+            session_unset();
+            session_destroy();
+        }
     }
