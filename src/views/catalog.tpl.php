@@ -35,15 +35,15 @@ else {
                 $bookClass = new Book($b->book_id, $b->title, $b->author, $b->genre, $b->price);
                 $fileClass = new File($files[$book]->file_id, $files[$book]->book_id, $files[$book]->route);
                 echo '<div>';
-                echo "<img src='/public/images/" . $files[$book]->route . ".jpg'>";
+                echo "<img src='/public/images/book_" . $bookClass->getBookId() . ".jpg'>";
                 echo "  <p><strong>Title:</strong> ".$bookClass->getTitle()."</p>
                         <p><strong>Author:</strong> ".$bookClass->getAuthor()."</p>                      
                         <p><strong>Genre:</strong> ".$bookClass->getGenre()."</p>
                         <p><strong>Price:</strong> ".$bookClass->getPrice()."€</p>";
                         
-                        if(file_exists("public/markdown/".$fileClass->getRoute().".md")){
+                        if(file_exists("public/markdown/book_".$bookClass->getBookId().".md")){
                             if(Session::getSession('user_subscription') !== false && Session::getSession('user_subscription')->getIsActive() == 1){
-                                echo "<button class='btn btn-primary' onclick='cargarMarkdown(`public/markdown/" . $fileClass->getRoute() . ".md`)'>Read</button>";
+                                echo "<a class='btn btn-primary' href='/book/read/". $bookClass->getBookId() ."'>Read</a>";
                             }
                             else echo "<a href='/catalog' class='btn btn-primary'>Read</a>";
                             
@@ -59,27 +59,6 @@ else {
     </div>
     
 </body>
-<script>
-  function cargarMarkdown(ruta) {
-    console.log(ruta);
-    // Realizar la carga del archivo Markdown
-    fetch(ruta)
-      .then(response => response.text())
-      .then(data => {
-        console.log(data);
-        const contenidoHTML = marked.parse(data);
-        console.log(contenidoHTML);
-        // Convertir el contenido Markdown a HTML usando marked
-        // Mostrar el contenido en el contenedor
-        document.body.innerHTML = contenidoHTML;
-        document.body.innerHTML += "<a href='/catalog'>BACK</a>";
-      })
-      .catch(error => console.error('Error al cargar el archivo Markdown:', error));
-      
-    
-}
-  
-  
-</script>
+
 
 </html>
