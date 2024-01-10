@@ -73,6 +73,10 @@ class QueryBuilder{
         
         return $this;
     }
+    public function join(string $table1, string $table2, string $field, string $join){
+        $this->query .= " ".$join." JOIN {$table2} ON ".$table1.".".$field." = ". $table2.".".$field;
+        return $this;
+    }
     public function get() {
         $statement = $this->pdo->prepare($this->query);
         $statement->execute();
