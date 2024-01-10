@@ -39,7 +39,7 @@ CREATE TABLE Books (
 )
 
 CREATE TABLE History (
-    history_id INT NOT NULL PRIMARY KEY,
+    history_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     book_id INT NOT NULL,
     CONSTRAINT fk_history_users FOREIGN KEY (user_id) REFERENCES Users(user_id),
