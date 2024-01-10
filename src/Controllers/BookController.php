@@ -21,14 +21,24 @@
                 ->condition('user_id','History', Session::getSession('user_data')->getId(), '=')
                 ->get();
             
-            
-            if(!in_array($book_id,get_object_vars($userHistory[0]))){
+            if(sizeof($userHistory) != 0){
+                
+                if(!in_array($book_id,get_object_vars($userHistory[0]))){
+                    Registry::get('database')
+                        ->insert('History', [
+                            'user_id' => Session::getSession('user_data')->getId(),
+                            'book_id' => $book_id]
+                        );
+                }
+            }
+            else {
                 Registry::get('database')
                     ->insert('History', [
                         'user_id' => Session::getSession('user_data')->getId(),
                         'book_id' => $book_id]
                     );
             }
+            
            
             
             echo View::render('book', ['book_id' => $book_id]);
