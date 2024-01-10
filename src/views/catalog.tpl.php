@@ -17,6 +17,7 @@ else {
         <nav>
             <a href="/updateUserProfile">Edit Account</a>
             <a href="/subscriptions">Subscriptions</a>
+            <a href="/history">History</a>
         </nav>
         <form action="/catalog" method="post">
         <div class="search mb-5">
