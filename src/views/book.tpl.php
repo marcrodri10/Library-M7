@@ -7,12 +7,13 @@ include_once 'partials/header.tpl.php';
         if($file){
             while(($line = fgets($file)) !== false){
                 if (trim($line) !== '') {
-                    if(trim($line[0]) == '#') echo '<h1>'.substr($line, 1).'</h1>';
+                    if($line[0] == '#') echo '<h1>'.trim(substr($line, 1)).'</h1>';
                     else echo '<p>'.trim($line).'</p>';
                 }
                 
             }
         }
+        fclose($file);
         
     ?>
 </body>
