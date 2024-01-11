@@ -5,6 +5,7 @@
     use App\Controller;
     use App\View;
     use App\Registry;
+    use App\FormHandler;
     use App\Model\User;
     use DateTime;
     use DateInterval;
@@ -18,14 +19,18 @@ use Exception;
             parent::__construct($session,$request);
         }        
         
-
-        function manageSubscription(){
-            if($_POST['subscription'] != 'cancel'){
-                $this->showPayment();
+        function formHandler(){
+            $handler = new FormHandler($_POST);
+            $data = $handler->getPostData();
+            $this->manageSubscription($data);
+        }
+        function manageSubscription($data){
+            if($data['subscription'] != 'cancel'){
+                $this->showPayment($data);
             }
             else $this->cancel();
         }
-        function showPayment(){
+        function showPayment($data){
             $userCard = Registry::get('database')
                 ->selectAll('Cards')
                 ->condition('user_id', 'Cards', Session::getSession('user_data')->getId(), '=')
@@ -40,7 +45,7 @@ use Exception;
                 }
                 else $userCard = [];
                 echo View::render('payment', [
-                    'subscription' => $_POST['subscription'],
+                    'subscription' => $data['subscription'],
                     'userCard' => $userCard,
                 ]);
             }

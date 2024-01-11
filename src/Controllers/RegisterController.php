@@ -4,7 +4,7 @@
     use App\Controller;
     use App\View;
     use App\Registry;
-
+    use App\FormHandler;
     use App\Model\User;
     class RegisterController extends Controller {
       
@@ -16,18 +16,22 @@
         function index(){
             echo View::render('register');
         }
-
-        function edit(){
+        function formHandler(){
+            $handler = new FormHandler($_POST);
+            $data = $handler->getPostData();
+            $this->edit($data);
+        }
+        function edit($data){
             
             try {
                 
-                if($_POST['password'] == $_POST['confirmpass']){
+                if($data['password'] == $data['confirmpass']){
                     
-                    $user = new User($_POST['username'], $_POST['password'], $_POST['email'], 'reader');
+                    $user = new User($data['username'], $data['password'], $data['email'], 'reader');
                     $fields = [
-                        'username' => $_POST['username'],
-                        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
-                        'email' => $_POST['email'],
+                        'username' => $user->getUsername(),
+                        'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT),
+                        'email' => $user->getEmail(),
                         'role' => 'reader',
                     ];
                 

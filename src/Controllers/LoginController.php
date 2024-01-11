@@ -5,6 +5,7 @@
     use App\Controller;
     use App\View;
     use App\Registry;
+    use App\FormHandler;
     use App\Model\User;
     use App\Model\Subscription;
     class LoginController extends Controller {
@@ -18,11 +19,16 @@
             echo View::render('login');
         }
 
-        function edit(){
+        function formHandler(){
+            $handler = new FormHandler($_POST);
+            $data = $handler->getPostData();
+            $this->edit($data);
+        }
+        function edit($data){
 
             $fields = [
-                'username' => $_POST['username'],
-                'password' => $_POST['password'],
+                'username' => $data['username'],
+                'password' => $data['password'],
             ];
 
             $userDb = Registry::get('database')

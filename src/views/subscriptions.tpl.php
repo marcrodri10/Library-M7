@@ -8,7 +8,7 @@ use App\Session;
     <a href="/catalog">CATALOG</a>
     <div class="vh-100 register-form h-100 d-flex justify-content-center align-items-center flex-column">
         <h1>Subscriptions plans</h1>
-        <form action="/payment/manageSubscription" method="post">
+        <form action="/payment/formHandler" method="post">
         
             <?php 
     
