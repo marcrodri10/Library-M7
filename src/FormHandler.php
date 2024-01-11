@@ -3,15 +3,13 @@
     namespace App;
 
     class FormHandler{
-        function __construct()
+        private array $post;
+        function __construct(array $post)
         {
+            $this->post = $post;
+        }
 
-        }
-        function callMethod(){
-            $data = $this->getFormData();
-            return $data;
-        }
-        private function getFormData(){
-            return $_POST;
+        function getPostData(){
+            return $this->post;
         }
     }

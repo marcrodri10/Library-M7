@@ -5,7 +5,7 @@ include_once 'partials/header.tpl.php';
 <body>
     <div class="vh-100 register-form h-100 d-flex justify-content-center align-items-center flex-column">
         <h1>Login</h1>
-        <form action="/login/edit" method="post">
+        <form action="/login/formHandler" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username">

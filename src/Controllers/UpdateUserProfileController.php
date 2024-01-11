@@ -5,6 +5,7 @@
     use App\Controller;
     use App\View;
     use App\Registry;
+    use App\FormHandler;
     use App\Model\User;
     class UpdateUserProfileController extends Controller {
       
@@ -20,11 +21,16 @@
             ]);
         }
 
-        function edit(){
+        function formHandler(){
+            $handler = new FormHandler($_POST);
+            $data = $handler->getPostData();
+            $this->edit($data);
+        }
+        function edit($data){
             
             $fields = [
-                'username' => $_POST['username'],
-                'email' => $_POST['email'],
+                'username' => $data['username'],
+                'email' => $data['email'],
             ];
 
             Registry::get('database')

@@ -6,6 +6,7 @@
     use App\View;
     use App\Registry;
     use DateTime;
+    use App\FormHandler;
     use DateInterval;
     use App\Model\Subscription;
     use App\Model\Payment;
@@ -20,11 +21,17 @@
             echo View::render('subscriptions');
         }
 
-        function subscribe(){
+        function formHandler(){
+            $handler = new FormHandler($_POST);
+            $data = $handler->getPostData();
+            $this->subscribe($data);
+        }
+
+        function subscribe($data){
             $card_fields = [
-                'name' => $_POST['name'],
-                'card' => $_POST['card'],
-                'cvv' => $_POST['cvv'],
+                'name' => $data['name'],
+                'card' => $data['card'],
+                'cvv' => $data['cvv'],
                 'user_id' => Session::getSession('user_data')->getId()
             ];
             
@@ -39,7 +46,7 @@
             }
             
             
-            $type = explode('-', $_POST['payment']);
+            $type = explode('-', $data['payment']);
             if($type[0] == 'pay'){
                 
                 if(Session::getSession('user_subscription') === false){
