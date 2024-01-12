@@ -66,7 +66,7 @@ class SubscriptionTestController{
                         'is_active' => 1,
                         'type' => 'trial',
                     ];
-                    echo 'Añadido al '. $user->getUsername() . ' la suscripcion '. $fields['type'];
+                    echo 'Added to the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
     
                 }
                 else if($type[1] == 'month'){
@@ -78,7 +78,7 @@ class SubscriptionTestController{
                         'is_active' => 1,
                         'type' => 'month',
                     ];
-                    echo 'Añadido al '. $user->getUsername() . ' la suscripcion '. $fields['type'];
+                    echo 'Added to the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
                     
                 }      
                 
@@ -96,7 +96,7 @@ class SubscriptionTestController{
                         'is_active' => 1,
                         'type' => 'month',
                     ];
-                    echo 'Actualizado al '. $user->getUsername() . ' la suscripcion '. $fields['type'];
+                    echo 'Update the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
                     
                 }
                 else {
@@ -111,7 +111,7 @@ class SubscriptionTestController{
                             'type' => 'month',
                         ];
 
-                        echo 'Actualizado al '. $user->getUsername() . ' la suscripcion '. $fields['type'];
+                        echo 'Update the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
                     }
                 }
 
@@ -137,7 +137,7 @@ class SubscriptionTestController{
                 $subscription = new Subscription($userSubscription[0]->user_id, $userSubscription[0]->start_date, 
                 $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
 
-                var_dump($subscription);
+                echo "<br>The subscription started on ".$subscription->getStartDate(). " and ends on ".$subscription->getFinishDate();
             }
             catch(\Exception $e){
                 echo $e->getMessage();
