@@ -15,8 +15,13 @@ include_once 'partials/header.tpl.php';
               </tr>
             </thead>
             <tbody>';
+            $i = 1;
             foreach($userHistoryBooks as $book){
-              echo "<tr><td>$book->title</td></tr>";
+              echo "<tr>
+              <td>$i</td>
+              <td>$book->title</td>
+              </tr>";
+              $i++;
             }
               
           }
