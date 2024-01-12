@@ -33,7 +33,7 @@ use Exception;
         function showPayment($data){
             $userCard = Registry::get('database')
                 ->selectAll('Cards')
-                ->condition('user_id', 'Cards', Session::getSession('user_data')->getId(), '=')
+                ->condition('user_id', 'Cards', $this->session::getSession('user_data')->getId(), '=')
                 ->get();
             
             try{
@@ -59,10 +59,10 @@ use Exception;
             if($_POST['subscription'] == 'cancel'){
                 Registry::get('database')
                     ->update('Subscriptions', ['is_active' => 0])
-                    ->condition('user_id', 'Subscriptions', Session::getSession('user_data')->getId(), '=')
+                    ->condition('user_id', 'Subscriptions', $this->session::getSession('user_data')->getId(), '=')
                     ->get();
                 
-                Session::getSession('user_subscription')->setIsActive(0);
+                $this->session::getSession('user_subscription')->setIsActive(0);
                 
             }
             header('Location:/subscriptions');

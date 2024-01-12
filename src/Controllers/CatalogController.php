@@ -20,7 +20,7 @@
                     ->condition('title', 'Books', $_POST['search'], 'like')
                     ->get();
                 
-                Session::setSession('search', $_POST['search']);
+                $this->session::setSession('search', $_POST['search']);
 
                 $files = Registry::get('database')
                     ->selectAll('Files')
@@ -33,7 +33,7 @@
                     ->selectAll('Books')
                     ->get();
                 
-                Session::deleteSession('search');
+                $this->session::deleteSession('search');
 
                 $files = Registry::get('database')
                     ->selectAll('Files')

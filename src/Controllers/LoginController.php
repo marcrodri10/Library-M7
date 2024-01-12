@@ -51,27 +51,27 @@
                 else $subscription = false;
 
                 
-                Session::setSession('user_subscription', $subscription);
+                $this->session::setSession('user_subscription', $subscription);
                 
                 $currentDate = new \DateTime();
                 
         
-                if(Session::getSession('user_subscription') !== false && $currentDate->format('Y-m-d') > Session::getSession('user_subscription')->getFinishDate()) {
+                if($this->session::getSession('user_subscription') !== false && $currentDate->format('Y-m-d') > Session::getSession('user_subscription')->getFinishDate()) {
                     Registry::get('database')
                         ->update('Subscriptions', [
                             'is_active' => 0,
                         ])
-                        ->condition('user_id', 'Subscriptions', Session::getSession('user_data')->getId(), '=')
+                        ->condition('user_id', 'Subscriptions', $this->session::getSession('user_data')->getId(), '=')
                         ->get();
                     
-                    Session::getSession('user_subscription')->setIsActive(0);
+                    $this->session::getSession('user_subscription')->setIsActive(0);
 
                     
                 }
                 
                 if($fields['username'] == $user->getUsername()){
                     if(password_verify($fields['password'], $user->getPassword())){
-                        Session::setSession('user_data', $user);
+                        $this->session::setSession('user_data', $user);
                         /* var_dump(Session::getSession('user_data'));
                         var_dump(Session::getSession('user_subscription')); */
                         

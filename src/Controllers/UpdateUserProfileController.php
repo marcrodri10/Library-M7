@@ -15,7 +15,7 @@
         }        
         
         function index(){
-            $userData = Session::getSession('user_data');
+            $userData = $this->session::getSession('user_data');
             echo View::render('updateUserProfile', [
                 'userData' => $userData
             ]);
@@ -35,6 +35,7 @@
 
             Registry::get('database')
                 ->update('Users', $fields)
+                ->condition('user_id','Users',$this->session::getSession('user_data')->getId(), '=')
                 ->get();
 
             $userDb = Registry::get('database')
@@ -50,7 +51,7 @@
                 echo $e->getMessage();
             }  
             
-            Session::setSession('user_data', $user);
+            $this->session::setSession('user_data', $user);
             
             header('Location: /updateUserProfile');
 
