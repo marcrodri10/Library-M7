@@ -18,7 +18,7 @@
             //insert on history
             $userHistory = Registry::get('database')
                 ->select('History', ['book_id'])
-                ->condition('user_id','History', $this->session::getSession('user_data')->getId(), '=')
+                ->condition(['user_id'],'History', [$this->session::getSession('user_data')->getId()], '=')
                 ->get();
             
             if(sizeof($userHistory) != 0){
@@ -28,19 +28,20 @@
                         ->insert('History', [
                             'user_id' => $this->session::getSession('user_data')->getId(),
                             'book_id' => $book_id]
-                        );
+                        )
+                        ->get();
                 }
             }
             else {
+                
                 Registry::get('database')
                     ->insert('History', [
                         'user_id' => $this->session::getSession('user_data')->getId(),
                         'book_id' => $book_id]
-                    );
+                    )
+                    ->get();
             }
-            
-           
-            
+
             echo View::render('book', ['book_id' => $book_id]);
         }
 

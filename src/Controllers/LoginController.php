@@ -16,71 +16,81 @@
         }        
         
         function index(){
+            //render login view
             echo View::render('login');
         }
 
         function formHandler(){
+            //manage form and save data into variable to redirect to the main function
             $handler = new FormHandler($_POST);
             $data = $handler->getPostData();
             $this->log($data);
         }
         function log($data){
 
+            //save input variables in an array
             $fields = [
                 'username' => $data['username'],
                 'password' => $data['password'],
             ];
 
-            $userDb = Registry::get('database')
-                ->selectAll('Users')
-                ->condition('username', 'Users', $fields['username'], '=')
-                ->get();
             
+                       
             try{ 
-                $user = new User($userDb[0]->username, $userDb[0]->password, $userDb[0]->email, $userDb[0]->role, $userDb[0]->user_id);
+                //get the user from the database
+                $userDb = Registry::get('database')
+                ->selectAll('Users')
+                ->condition(['username'], 'Users', [$fields['username']], '=')
+                ->get();
                 
-                $userSubscription = Registry::get('database')
-                    ->selectAll('Subscriptions')
-                    ->condition('user_id', 'Subscriptions', $user->getId(), '=')
-                    ->get();
-                
-                if(sizeof($userSubscription) > 0) {
-                    $subscription = new Subscription($user->getId(), $userSubscription[0]->start_date, 
-                    $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
-                }
-                else $subscription = false;
-
-                
-                $this->session::setSession('user_subscription', $subscription);
-                
-                $currentDate = new \DateTime();
-                
-        
-                if($this->session::getSession('user_subscription') !== false && $currentDate->format('Y-m-d') > Session::getSession('user_subscription')->getFinishDate()) {
-                    Registry::get('database')
-                        ->update('Subscriptions', [
-                            'is_active' => 0,
-                        ])
-                        ->condition('user_id', 'Subscriptions', $this->session::getSession('user_data')->getId(), '=')
+                if(sizeof($userDb) > 0){
+                    $user = new User($userDb[0]->username, $userDb[0]->password, $userDb[0]->email, $userDb[0]->role, $userDb[0]->user_id);
+                    
+                    $userSubscription = Registry::get('database')
+                        ->selectAll('Subscriptions')
+                        ->condition(['user_id'], 'Subscriptions', [$user->getId()], '=')
                         ->get();
                     
-                    $this->session::getSession('user_subscription')->setIsActive(0);
-
-                    
-                }
-                
-                if($fields['username'] == $user->getUsername()){
-                    if(password_verify($fields['password'], $user->getPassword())){
-                        $this->session::setSession('user_data', $user);
-                        /* var_dump(Session::getSession('user_data'));
-                        var_dump(Session::getSession('user_subscription')); */
-                        
-                        header('Location:/catalog');
+                    if(sizeof($userSubscription) > 0) {
+                        $subscription = new Subscription($user->getId(), $userSubscription[0]->start_date, 
+                        $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
                     }
+                    else $subscription = false;
+
+                 
+                    $this->session::setSession('user_subscription', $subscription);
+                    
+                    $currentDate = new \DateTime();
+                    
+            
+                    if($this->session::getSession('user_subscription') !== false && $currentDate->format('Y-m-d') > Session::getSession('user_subscription')->getFinishDate()) {
+                        Registry::get('database')
+                            ->update('Subscriptions', [
+                                'is_active' => 0,
+                            ])
+                            ->condition(['user_id'], 'Subscriptions', [$this->session::getSession('user_data')->getId()], '=')
+                            ->get();
+                        
+                        $this->session::getSession('user_subscription')->setIsActive(0);
+
+                        
+                    }
+                    
+                    if($fields['username'] == $user->getUsername()){
+                        if(password_verify($fields['password'], $user->getPassword())){
+                            $this->session::setSession('user_data', $user);
+                            $this->session::deleteSession('error');
+                            header('Location:/catalog');
+                        }
+                    }
+                }
+                else {
+                    throw new \Exception('User does not exist');          
                 }
             }
             catch(\Exception $e){
-                echo $e->getMessage();
+                $this->session::setSession('error', ucfirst($e->getMessage()));
+                header('Location:/login');
             }
             
             

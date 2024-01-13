@@ -19,13 +19,13 @@ else {
             <a href="/subscriptions">Subscriptions</a>
             <a href="/history">History</a>
         </nav>
-        <form action="/catalog" method="post">
+        <form action="/catalog/formHandler" method="post">
         <div class="search mb-5">
             <input type="text" name="search" id="search" value="<?php 
             if(Session::checkSession('search')) echo Session::getSession('search');
             ?>">
             <?php if(Session::checkSession('search')) { ?>
-                <a href="/catalog">RESET</a>
+                <a href="/catalog/formHandler">RESET</a>
            <?php } ?>
         </div>
         </form>
@@ -46,7 +46,7 @@ else {
                             if(Session::getSession('user_subscription') !== false && Session::getSession('user_subscription')->getIsActive() == 1){
                                 echo "<a class='btn btn-primary' href='/book/read/". $bookClass->getBookId() ."'>Read</a>";
                             }
-                            else echo "<a href='/catalog' class='btn btn-primary'>Read</a>";
+                            else echo "<a href='/catalog/formHandler' class='btn btn-primary'>Read</a>";
                             
                         }
                         

@@ -20,8 +20,7 @@
                 ->select('Books', ['title'])
                 ->join('Books', 'History', 'book_id', 'INNER')
                 ->get();
-            
-            
+
             echo View::render('history', ['userHistoryBooks' => $userHistoryBooks]);
         }
 

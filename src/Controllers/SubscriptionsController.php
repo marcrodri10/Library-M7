@@ -34,99 +34,105 @@
                 'cvv' => $data['cvv'],
                 'user_id' => $this->session::getSession('user_data')->getId()
             ];
-            
-            $userCard = Registry::get('database')
-                ->selectAll('Cards')
-                ->condition('user_id', 'Cards', $this->session::getSession('user_data')->getId(), '=')
-                ->get();
-            
-            if(sizeof($userCard) == 0){
-                Registry::get('database')
-                    ->insert('Cards', $card_fields);
-            }
-            
-            
             $type = explode('-', $data['payment']);
-            if($type[0] == 'pay'){
-                
-                if($this->session::getSession('user_subscription') === false){
-                    $currentDate = new DateTime();
-                    
-                    if($type[1] == 'trial'){
-                    
-                        $fields = [
-                            'user_id' => $this->session::getSession('user_data')->getId(),
-                            'start_date' => $currentDate->format('Y-m-d'),
-                            'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
-                            'is_active' => 1,
-                            'type' => 'trial',
-                        ];
-        
-                    }
-                    else if($type[1] == 'month'){
-                    
-                        $fields = [
-                            'user_id' => $this->session::getSession('user_data')->getId(),
-                            'start_date' => $currentDate->format('Y-m-d'),
-                            'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
-                            'is_active' => 1,
-                            'type' => 'month',
-                        ];
-                        
-                    }
-                    
-    
-                    Registry::get('database')->insert('Subscriptions', $fields);
-                    
-                    
-                }
+            try{
+                $userCard = Registry::get('database')
+                    ->selectAll('Cards')
+                    ->condition(['card'], 'Cards', [$data['card']], '=')
+                    ->get();
 
-                else if($this->session::getSession('user_subscription') !== false){
-                   
-                    if($this->session::getSession('user_subscription')->getIsActive() == 0){
+                if(sizeof($userCard) == 0){
+                    Registry::get('database')
+                        ->insert('Cards', $card_fields)
+                        ->get();
+                }
+                else {
+                    
+                    if($userCard[0]->cvv !== (int)$data['cvv']) throw new \Exception("CVV is not correct");
+                }
+            
+            
+                
+                if($type[0] == 'pay'){
+                
+                    if($this->session::getSession('user_subscription') === false){
+
                         $currentDate = new DateTime();
                         
-                        $fields = [
-                            'user_id' => $this->session::getSession('user_data')->getId(),
-                            'start_date' => $currentDate->format('Y-m-d'),
-                            'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
-                            'is_active' => 1,
-                            'type' => 'month',
-                        ];
-    
+                        if($type[1] == 'trial'){
                         
-                    }
-                    else {
-                        if($type[1] == 'renew'){
-                            $finish = new DateTime($this->session::getSession('user_subscription')->getFinishDate());
-                            
                             $fields = [
                                 'user_id' => $this->session::getSession('user_data')->getId(),
-                                'start_date' => $finish->format('Y-m-d'),
-                                'finish_date' => $finish->add(new DateInterval('P1M'))->format('Y-m-d'),
+                                'start_date' => $currentDate->format('Y-m-d'),
+                                'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
+                                'is_active' => 1,
+                                'type' => 'trial',
+                            ];
+            
+                        }
+                        else if($type[1] == 'month'){
+                        
+                            $fields = [
+                                'user_id' => $this->session::getSession('user_data')->getId(),
+                                'start_date' => $currentDate->format('Y-m-d'),
+                                'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
                                 'is_active' => 1,
                                 'type' => 'month',
                             ];
-
-                            $this->session::deleteSession('days_to_finish');
+                            
                         }
+                        
+                        Registry::get('database')
+                            ->insert('Subscriptions', $fields)
+                            ->get();
+
                     }
-                    Registry::get('database')
-                        ->update('Subscriptions', $fields)
-                        ->condition('user_id', 'Subscriptions', $this->session::getSession('user_data')->getId(), '=')
+
+                    else if($this->session::getSession('user_subscription') !== false){
+                    
+                        if($this->session::getSession('user_subscription')->getIsActive() == 0){
+                            $currentDate = new DateTime();
+                            
+                            $fields = [
+                                'user_id' => $this->session::getSession('user_data')->getId(),
+                                'start_date' => $currentDate->format('Y-m-d'),
+                                'finish_date' => $currentDate->add(new DateInterval('P1M'))->format('Y-m-d'),
+                                'is_active' => 1,
+                                'type' => 'month',
+                            ];
+        
+                            
+                        }
+                        else {
+                            if($type[1] == 'renew'){
+                                $finish = new DateTime($this->session::getSession('user_subscription')->getFinishDate());
+                                
+                                $fields = [
+                                    'user_id' => $this->session::getSession('user_data')->getId(),
+                                    'start_date' => $finish->format('Y-m-d'),
+                                    'finish_date' => $finish->add(new DateInterval('P1M'))->format('Y-m-d'),
+                                    'is_active' => 1,
+                                    'type' => 'month',
+                                ];
+
+                                $this->session::deleteSession('days_to_finish');
+                            }
+                        }
+                        Registry::get('database')
+                            ->update('Subscriptions', $fields)
+                            ->condition(['user_id'], 'Subscriptions', [$this->session::getSession('user_data')->getId()], '=')
+                            ->get();
+
+                    }
+                    $userSubscription = Registry::get('database')
+                        ->selectAll('Subscriptions')
+                        ->condition(['user_id'], 'Subscriptions', [$this->session::getSession('user_data')->getId()], '=')
                         ->get();
 
-                }
-                $userSubscription = Registry::get('database')
-                    ->selectAll('Subscriptions')
-                    ->condition('user_id', 'Subscriptions', $this->session::getSession('user_data')->getId(), '=')
-                    ->get();
-
-                
-                try{
+                    
                     $currentDate = new DateTime();
                     $payment = new Payment($this->session::getSession('user_data')->getId(), $type[2], $currentDate->format('Y-m-d'));
-                    
+                        
                     $paymentFields = [
                         'user_id' => $payment->getUserId(),
                         'amount' => $payment->getAmount(),
@@ -141,15 +147,15 @@
 
                     $this->session::setSession('user_subscription', $subscription);
                 }
-                catch(\Exception $e){
-                    echo $e->getMessage();
-                }
-                
-                
-    
-                
+                header('Location:/subscriptions');
+                 
             }
-            header('Location:/subscriptions');
+            catch(\Exception $e){
+                $this->session::setSession('error', ucfirst($e->getMessage()));
+                $this->session::setSession('type_subscription', $type[1]);
+                header('Location:/payment/formHandler');
+            }
+            
 
         }
         

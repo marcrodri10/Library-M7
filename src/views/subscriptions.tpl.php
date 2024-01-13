@@ -1,7 +1,7 @@
 <?php
 include_once 'partials/header.tpl.php';
 use App\Session;
-
+//Session::deleteSession('type_subscription');
 ?>
 
 <body>

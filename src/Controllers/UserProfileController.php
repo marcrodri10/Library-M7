@@ -35,12 +35,12 @@
 
             Registry::get('database')
                 ->update('Users', $fields)
-                ->condition('user_id','Users',$this->session::getSession('user_data')->getId(), '=')
+                ->condition(['user_id'],'Users', [$this->session::getSession('user_data')->getId()], '=')
                 ->get();
 
             $userDb = Registry::get('database')
                 ->selectAll('Users')
-                ->condition('username', 'Users', $fields['username'], '=')
+                ->condition(['username'], 'Users', [$fields['username']], '=')
                 ->get();
             
             try{

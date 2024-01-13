@@ -7,11 +7,13 @@ class QueryBuilder{
     private $table;
     private $whereClause;
     private $limit;
+    private $params = [];
     protected $pdo;
 
     function __construct($pdo)
     {
         $this->pdo=$pdo;
+        
     }
 
     function selectAll($table){
@@ -34,13 +36,18 @@ class QueryBuilder{
         
         return $this;
     }
-    public function condition(string $conditionFieldName, string $table, $value, string $symbol)
-    {
-        if($symbol == '=') $this->whereClause =  " WHERE $table.$conditionFieldName = '$value'";
-        else if($symbol == 'like') $this->whereClause = " WHERE $table.$conditionFieldName LIKE '%$value%'";
-        else $this->whereClause =  " WHERE $table.$conditionFieldName != '$value'";
+    public function condition(array $conditionFieldNames, string $table, array $values, string $symbol)
+    {   
+        $this->whereClause = " WHERE";
         
-        $this->query .= $this->whereClause;
+        $this->generateBindParams($conditionFieldNames, $values);
+        
+        foreach($conditionFieldNames as $condition){
+            $this->whereClause .=  " $table.$condition $symbol :$condition AND ";
+        }
+        
+        $this->query .= str_replace(' AND ', "", $this->whereClause);
+
         return $this;
         
     }
@@ -51,23 +58,23 @@ class QueryBuilder{
         $values = array_map(function($value){
             return is_string($value) ? "'" . $value ."'" : $value;
         }, $fields);
-
-       
-        $values = implode(', ', array_values($values));
+        
+        $this->generateBindParams(array_keys($fields), array_values($fields));
+        
+        $values = implode(', ', array_keys($this->params));
         
         $this->query = "insert into {$table} ({$columns}) values ({$values})";
         
-        $statement = $this->pdo->prepare($this->query);
-
-        $statement->execute();
-
+        return $this;
     }
 
     public function update(string $table, array $fields){
         $this->query = "UPDATE {$table} SET ";
-        
+
+        $this->generateBindParams(array_keys($fields), array_values($fields));
+
         foreach($fields as $field => $value){
-            $this->query .= $field ." = '". $value."', ";
+            $this->query .= $field ." = :". $field.", ";
         }
         $this->query = rtrim($this->query, ', ');
         
@@ -78,8 +85,30 @@ class QueryBuilder{
         return $this;
     }
     public function get() {
-        $statement = $this->pdo->prepare($this->query);
-        $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_CLASS);
+        try{       
+            $statement = $this->pdo->prepare($this->query);
+            $statement->execute($this->params);
+            $this->params = [];
+            return $statement->fetchAll(\PDO::FETCH_CLASS);
+            
+        }
+        catch(\Exception $e){
+            if($e->getCode() == 23000){
+                preg_match("/'([^']+)' for key '([^']+)'/", $e->errorInfo[2], $matches);
+                throw new \Exception($matches[2]." already exists");
+            }
+            else {
+                throw new \Exception("An error has occurred. Try later");
+            }
+            
+            
+        }
+        
+    }
+
+    private function generateBindParams(array $fieldNames, array $values){
+        foreach($values as $value => $v){
+            $this->params = array_merge($this->params, [':'.$fieldNames[$value] =>  $v]);
+        }
     }
 }

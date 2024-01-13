@@ -1,11 +1,19 @@
 <?php
     include_once 'partials/header.tpl.php';
+    use App\Session;
+    //dd(Session::getSession('user_data'));
 ?>
 <body>
     <h1>User Profile</h1>
     <a href="/catalog">Catalog</a>
     <div class="vh-100 register-form h-100 d-flex justify-content-center align-items-center flex-column">
         <h1>User Profile</h1>
+        <?php
+            if(Session::checkSession('error')) {
+                echo '<div class="error">'.Session::getSession('error').'</div>';
+                Session::deleteSession('error');
+            }
+        ?>
         <form action="/updateUserProfile/formHandler" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>

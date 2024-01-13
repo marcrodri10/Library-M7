@@ -1,5 +1,6 @@
 <?php
 include_once 'partials/header.tpl.php';
+use App\Session;
 if(isset($subscription)){
     if($subscription == 'trial') $amount = 0;
     else $amount = 1;
@@ -14,18 +15,25 @@ if(isset($subscription)){
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Payment</h1>
                 <a href="/subscriptions" class="btn-close" aria-label="Close" value="cancel"></a>
+                <?php
+                if(Session::checkSession('error')) {
+                    echo '<div class="error">'.Session::getSession('error').'</div>';
+                    Session::deleteSession('error');
+                    Session::deleteSession('type_subscription');
+                }
+                ?>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="name" name='name' value="<?php if($userCard !== []) echo $userCard->getName() ?>" required>
+                <input type="text" class="form-control" id="name" name='name' value="<?php if(!empty($userCard)) echo $userCard->getName() ?>" required>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">Card:</label>
-                <input type="text" class="form-control" id="card" name='card' value="<?php if($userCard !== []) echo $userCard->getCard() ?>" required>
+                <input type="text" class="form-control" id="card" name='card' value="<?php if(!empty($userCard)) echo $userCard->getCard() ?>" required>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">CVV:</label>
-                <input type="text" class="form-control" id="cvv" name='cvv' value="<?php if($userCard !== []) echo $userCard->getCvv() ?>" required>
+                <input type="text" class="form-control" id="cvv" name='cvv' value="<?php if(!empty($userCard)) echo $userCard->getCvv() ?>" required>
             </div>
             <div class="modal-body">
                 <label for="text" class="form-label">Amount:</label>

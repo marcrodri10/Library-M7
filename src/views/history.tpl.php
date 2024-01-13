@@ -5,7 +5,7 @@ include_once 'partials/header.tpl.php';
     <div class="container-fluid">
         <h1>User Book History</h1>
         <?php
-        
+          
           if(sizeof($userHistoryBooks) > 0){
             echo '<table class="table">
             <thead>
@@ -25,6 +25,7 @@ include_once 'partials/header.tpl.php';
             }
               
           }
+          else echo '<h2>You have not started any book yet.</h2>'
         ?>
         </tbody>
         </table>

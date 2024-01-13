@@ -5,26 +5,30 @@
     use App\View;
     use App\Registry;
     use App\Session;
-    
+    use App\FormHandler;
     class CatalogController extends Controller {
       
         function __construct($session,$request)
         {
             parent::__construct($session,$request);
         }        
-        
-        function index(){
-            if(isset($_POST['search']) && $_POST['search'] != ''){
+        function formHandler(){
+            $handler = new FormHandler($_POST);
+            $data = $handler->getPostData();
+            $this->index($data);
+        }
+        function index($data = []){
+            if(isset($data['search']) && $data['search'] != ''){
                 $books = Registry::get('database')
                     ->selectAll('Books')
-                    ->condition('title', 'Books', $_POST['search'], 'like')
+                    ->condition(['title'], 'Books', ['%'.$data['search'].'%'], 'LIKE')
                     ->get();
                 
-                $this->session::setSession('search', $_POST['search']);
-
+                $this->session::setSession('search', $data['search']);
+                
                 $files = Registry::get('database')
                     ->selectAll('Files')
-                    ->condition('book_id', 'Files', $books[0]['book_id'], '=')
+                    ->condition(['book_id'], 'Files', [$books[0]->book_id], '=')
                     ->get();
 
             }
@@ -39,8 +43,6 @@
                     ->selectAll('Files')
                     ->get();
             }
-            
-            
             
             echo View::render('catalog', [
                 "books" => $books,
