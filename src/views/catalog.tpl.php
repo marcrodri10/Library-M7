@@ -15,7 +15,7 @@ else {
     <div class="d-flex flex-column justify-content-center align-items-center">
         <h1>Library Catalog</h1>
         <nav>
-            <a href="/updateUserProfile">Edit Account</a>
+            <a href="/userProfile">Edit Account</a>
             <a href="/subscriptions">Subscriptions</a>
             <a href="/history">History</a>
         </nav>
