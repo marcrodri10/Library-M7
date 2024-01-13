@@ -22,9 +22,9 @@
         function formHandler(){
             $handler = new FormHandler($_POST);
             $data = $handler->getPostData();
-            $this->edit($data);
+            $this->log($data);
         }
-        function edit($data){
+        function log($data){
 
             $fields = [
                 'username' => $data['username'],

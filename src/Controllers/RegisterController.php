@@ -19,9 +19,9 @@
         function formHandler(){
             $handler = new FormHandler($_POST);
             $data = $handler->getPostData();
-            $this->edit($data);
+            $this->registry($data);
         }
-        function edit($data){
+        function registry($data){
             
             try {
                 
