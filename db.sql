@@ -1,34 +1,30 @@
--- Active: 1704732891023@@127.0.0.1@3306@library
-DROP DATABASE library;
+-- Active: 1703865360951@@127.0.0.1@3306@library
+--DROP DATABASE library;
+--GRANT ALL PRIVILEGES ON LIBRARY.* TO 'library'@'localhost';
 CREATE DATABASE library;
 USE library;
 
-
-GRANT ALL PRIVILEGES ON LIBRARY.* TO 'library'@'localhost';
-
-
 CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     role VARCHAR(255) NOT NULL
-)
-
+);
 CREATE TABLE Readers (
     user_id INT NOT NULL,
     CONSTRAINT fk_readers_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
-)
+);
 
 CREATE TABLE Librarians (
     user_id INT NOT NULL,
     CONSTRAINT fk_librarians_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
-)
+);
 
 CREATE TABLE Admins (
     user_id INT NOT NULL,
     CONSTRAINT fk_admins_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
-)
+);
 
 CREATE TABLE Books (
     book_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -36,7 +32,7 @@ CREATE TABLE Books (
     author VARCHAR(255) NOT NULL,
     genre VARCHAR(255) NOT NULL,
     price FLOAT NOT NULL
-)
+);
 
 CREATE TABLE History (
     history_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -44,7 +40,7 @@ CREATE TABLE History (
     book_id INT NOT NULL,
     CONSTRAINT fk_history_users FOREIGN KEY (user_id) REFERENCES Users(user_id),
     CONSTRAINT fk_history_book FOREIGN KEY (book_id) REFERENCES Books(book_id)
-)
+);
 
 CREATE TABLE Payments (
     payment_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -52,7 +48,7 @@ CREATE TABLE Payments (
     amount INT NOT NULL,
     date DATE NOT NULL,
     CONSTRAINT fk_payment_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
-)
+);
 
 
 CREATE TABLE Subscriptions (
@@ -63,7 +59,7 @@ CREATE TABLE Subscriptions (
     is_active TINYINT NOT NULL,
     type VARCHAR(255) NOT NULL,
     CONSTRAINT fk_suscription_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
-)
+);
 
 
 
@@ -73,7 +69,7 @@ CREATE TABLE Files (
     route VARCHAR(255),
     
     CONSTRAINT fk_files_book FOREIGN KEY (book_id) REFERENCES Books(book_id)
-)
+);
 
 CREATE TABLE Cards (
     card_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -82,7 +78,7 @@ CREATE TABLE Cards (
     cvv INT NOT NULL,
     user_id INT NOT NULL,
     CONSTRAINT fk_card_user FOREIGN KEY (user_id) REFERENCES Users(user_id)
-)
+);
 
 INSERT INTO Books (book_id, title, author, genre, price) VALUES
 (1, 'El señor de los anillos', 'J.R.R. Tolkien', 'Fantasía', 29.99),
@@ -106,7 +102,7 @@ INSERT INTO Files (book_id, route) VALUES
     (7, 'book_7'),
     (8, 'book_8'),
     (9, 'book_9'),
-    (10, 'book_10')
+    (10, 'book_10');
 
 
 
