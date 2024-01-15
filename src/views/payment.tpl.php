@@ -1,10 +1,13 @@
 <?php
 include_once 'partials/header.tpl.php';
 use App\Session;
+use App\Model\Card;
+
 if(isset($subscription)){
     if($subscription == 'trial') $amount = 0;
     else $amount = 1;
 }
+
 
 ?>
 <!-- Modal -->
@@ -15,33 +18,43 @@ if(isset($subscription)){
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Payment</h1>
                 <a href="/subscriptions" class="btn-close" aria-label="Close" value="cancel"></a>
-                <?php
-                if(Session::checkSession('error')) {
-                    echo '<div class="error">'.Session::getSession('error').'</div>';
-                    Session::deleteSession('error');
-                    Session::deleteSession('type_subscription');
-                }
-                ?>
             </div>
             <div class="modal-body">
-                <label for="text" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="name" name='name' value="<?php if(!empty($userCard)) echo $userCard->getName() ?>" required>
+                <input type='text' class='form-control input payment-input' id='name' name='name' value="" placeholder="Name" required>
             </div>
             <div class="modal-body">
-                <label for="text" class="form-label">Card:</label>
-                <input type="text" class="form-control" id="card" name='card' value="<?php if(!empty($userCard)) echo $userCard->getCard() ?>" required>
+                <input type='text' class='form-control input payment-input' id='card' name='card' value="" placeholder="Card Number" required>
             </div>
             <div class="modal-body">
-                <label for="text" class="form-label">CVV:</label>
-                <input type="text" class="form-control" id="cvv" name='cvv' value="<?php if(!empty($userCard)) echo $userCard->getCvv() ?>" required>
+                <input type="text" class="form-control input payment-input" id="cvv" name='cvv' value="" placeholder="CVV" required>
             </div>
             <div class="modal-body">
-                <label for="text" class="form-label">Amount:</label>
-                <input type="text" class="form-control" id="amount" name='amount' readonly value="<?php echo $amount ?> €">
+                <input type="text" class="form-control input payment-input" id="amount" name='amount' readonly value="<?php echo $amount ?> €">
             </div>
             <div class="modal-footer">
-                <a href="/subscriptions" class="btn btn-danger" name="payment">Close</a>
-                <button type="submit" class="btn btn-primary"  name="payment" value="pay-<?php echo $subscription."-";echo $amount?>">Pay</button>
+                <a class="cssbuttons-io-button button-cancel" href="/subscriptions">
+                    Cancel
+                    <div class="icon">
+                        <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+                        </svg>
+                    </div>
+                </a>
+                <?php
+                    if($type == 'pay'){
+                        echo '<button class="cssbuttons-io-button" type="submit" name="payment" value="pay-'.$subscription."-" . $amount.'">
+                        Pay
+                        <div class="icon">
+                            <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </button>';
+                    }
+                    
+                ?>  
             </div>
             </div>
         </div>

@@ -2,7 +2,8 @@
 include_once 'partials/header.tpl.php';
 ?>
 <body>
-    <div class="container-fluid">
+  <?php include_once 'partials/nav.tpl.php'; ?>
+    <div class="container-fluid  b-flex-center-center-col history">
         <h1>User Book History</h1>
         <?php
           

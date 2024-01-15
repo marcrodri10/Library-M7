@@ -27,31 +27,30 @@
             $this->subscribe($data);
         }
 
-        function subscribe($data){
-            $card_fields = [
-                'name' => $data['name'],
-                'card' => $data['card'],
-                'cvv' => $data['cvv'],
-                'user_id' => $this->session::getSession('user_data')->getId()
-            ];
-            $type = explode('-', $data['payment']);
-            try{
+        function subscribe($data=[]){
+            if(array_keys($data)[0] == 'user-card'){
+                $idCard = (explode('-', $data['user-card']))[3];
                 $userCard = Registry::get('database')
                     ->selectAll('Cards')
-                    ->condition(['card'], 'Cards', [$data['card']], '=')
+                    ->condition(['card_id'], 'Cards', [$idCard], '=')
                     ->get();
-
-                if(sizeof($userCard) == 0){
-                    Registry::get('database')
-                        ->insert('Cards', $card_fields)
-                        ->get();
-                }
-                else {
-                    
-                    if($userCard[0]->cvv !== (int)$data['cvv']) throw new \Exception("CVV is not correct");
-                }
-            
-            
+                
+                $type = explode('-',$data['user-card']);
+            }
+            else {
+                $card_fields = [
+                    'name' => $data['name'],
+                    'card' => $data['card'],
+                    'cvv' => $data['cvv'],
+                    'user_id' => $this->session::getSession('user_data')->getId()
+                ];
+                $type = explode('-', $data['payment']);
+                
+                Registry::get('database')
+                    ->insert('Cards', $card_fields)
+                    ->get();
+            }
+            try{
                 
                 if($type[0] == 'pay'){
                 
@@ -89,7 +88,7 @@
                     }
 
                     else if($this->session::getSession('user_subscription') !== false){
-                    
+                        
                         if($this->session::getSession('user_subscription')->getIsActive() == 0){
                             $currentDate = new DateTime();
                             
@@ -118,6 +117,7 @@
                                 $this->session::deleteSession('days_to_finish');
                             }
                         }
+                        
                         Registry::get('database')
                             ->update('Subscriptions', $fields)
                             ->condition(['user_id'], 'Subscriptions', [$this->session::getSession('user_data')->getId()], '=')
@@ -132,7 +132,7 @@
                     
                     $currentDate = new DateTime();
                     $payment = new Payment($this->session::getSession('user_data')->getId(), $type[2], $currentDate->format('Y-m-d'));
-                        
+                    
                     $paymentFields = [
                         'user_id' => $payment->getUserId(),
                         'amount' => $payment->getAmount(),
@@ -140,7 +140,8 @@
                     ];
 
                     Registry::get('database')
-                        ->insert('payments', $paymentFields); 
+                        ->insert('payments', $paymentFields)
+                        ->get(); 
 
                     $subscription = new Subscription($userSubscription[0]->user_id, $userSubscription[0]->start_date, 
                     $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
@@ -152,8 +153,8 @@
             }
             catch(\Exception $e){
                 $this->session::setSession('error', ucfirst($e->getMessage()));
-                $this->session::setSession('type_subscription', $type[1]);
-                header('Location:/payment/formHandler');
+                //$this->session::setSession('type_subscription', $type[1]);
+                header('Location:/subscriptions');
             }
             
 
