@@ -42,12 +42,15 @@ class QueryBuilder{
         
         $this->generateBindParams($conditionFieldNames, $values);
         
+        $i = 0;
         foreach($conditionFieldNames as $condition){
-            $this->whereClause .=  " $table.$condition $symbol :$condition AND ";
+            if($i == 0){
+                $this->whereClause .=  " $table.$condition $symbol :$condition";
+            }
+            else $this->whereClause .=  " AND $table.$condition $symbol :$condition ";
+            $i++;
         }
-        
-        $this->query .= str_replace(' AND ', "", $this->whereClause);
-
+        $this->query .= $this->whereClause;
         return $this;
         
     }
