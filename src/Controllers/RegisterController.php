@@ -22,9 +22,7 @@
             $this->registry($data);
         }
         function registry($data){
-            
-          
-
+            try{
                 if($data['password'] == $data['confirmpass']){
                     
                     $user = new User($data['username'], $data['password'], $data['email'], 'reader');
@@ -36,7 +34,9 @@
                     ];
                 
                     try{
-                        Registry::get('database')->insert('Users', $fields);
+                        Registry::get('database')
+                            ->insert('Users', $fields)
+                            ->get();
                         $this->session::deleteSession('error');
                         header('Location:/login');
                     }
@@ -44,16 +44,15 @@
                         $this->session::setSession('error', ucfirst($e->getMessage()));
                         header('Location:/register');
                     }
-                    
-                    
-                    
-                    
+
                 }
+                else throw new \Exception('Passwords do not match');
+                
+            }
+            catch(\Exception $e){
+                $this->session::setSession('error', ucfirst($e->getMessage()));
+                header('Location:/register');
             }
            
-           
-            
-
-        
-       
+        }
     }

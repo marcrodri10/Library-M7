@@ -82,6 +82,7 @@
                             $this->session::deleteSession('error');
                             header('Location:/catalog');
                         }
+                        else throw new \Exception('Incorrect password'); 
                     }
                 }
                 else {
