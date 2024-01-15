@@ -1,36 +1,635 @@
-img{
-    height: 150px;
-    width: 100px;
+/*GENERAL*/
+*{
+    margin: 0;
+    padding: 0;
 }
-.animated-div {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 200px; /* ajusta según tus necesidades */
-    background-color: #3498db;
-    color: #fff;
+.navbar{
+  height: 10vh;
+}
+body{
+  height: 100vh;
+}
+.b-flex-center-center-col{
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 20px;
-    display: none;
+    flex-direction: column;
+}
+.b-flex-center-center-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+#logo{
+    width: 500px;
+    height: 250px;
+}
+¡
+.div-flex{
+    display: flex;
+}
+.input {
+  width: 100%;
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 1rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f3f3f4;
+  color: #0d0c22;
+  transition: .3s ease;
+ }
+ 
+ .input::placeholder {
+  color: #9e9ea7;
+ }
+ 
+ .input:focus, .input:hover {
+  outline: none;
+  border-color: rgba(234,76,137,0.4);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+ }
+ .cssbuttons-io-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #a370f0;
+  color: white;
+  font-family: inherit;
+  padding: 0.35em;
+  padding-left: 1.2em;
+  font-size: 17px;
+  font-weight: 500;
+  border-radius: 0.9em;
+  border: none;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 1.6em -0.6em #714da6;
+  overflow: hidden;
+  position: relative;
+  height: 2.8em;
+  padding-right: 3.3em;
+  cursor: pointer;
+  text-decoration: none;
 }
 
+.cssbuttons-io-button .icon {
+  background: white;
+  margin-left: 1em;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2.2em;
+  border-radius: 0.7em;
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+  right: 0.3em;
+  transition: all 0.3s;
+  
+}
 
-@keyframes slideIn {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(0);
-    }
+.cssbuttons-io-button:hover .icon {
+  width: calc(100% - 0.6em);
+}
+
+.cssbuttons-io-button .icon svg {
+  width: 1.1em;
+  transition: transform 0.3s;
+  color: #7b52b9;
+}
+
+.cssbuttons-io-button:hover .icon svg {
+  transform: translateX(0.1em);
+}
+
+.cssbuttons-io-button:active .icon {
+  transform: scale(0.95);
+}
+.submit-btn{
+    width: 100%;
+}
+.button-cancel{
+  background: #c73c3c;
+  box-shadow: inset 0 0 1.6em -0.6em #c73c3c;
+  
+}
+.button-cancel .icon{
+  box-shadow: 0.1em 0.1em 0.6em 0.2em #c73c3c;
+}
+.button-cancel .icon svg{
+  color: #c73c3c;
+}
+ @keyframes slideIn {
+  0% {
+      transform: translateX(100%);
+  }
+  100% {
+      transform: translateX(0);
+  }
 }
 @keyframes slideOut {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(100%);
-    }
+  0% {
+      transform: translateX(0);
+  }
+  100% {
+      transform: translateX(100%);
+  }
+}
+.animated-div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px; /* ajusta según tus necesidades */
+  background-color: #3498db;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  display: none;
+}
+/*HOME*/
+#buttons-div{
+    display: flex;
+    width: 50%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+
+  /*LOGIN*/
+  .form-container {
+    width: 350px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px 30px;
+  }
+  
+  .title {
+    text-align: center;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    margin: 10px 0 30px 0;
+    font-size: 28px;
+    font-weight: 800;
+  }
+  
+  .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 15px;
+  }
+
+  
+  .page-link {
+    text-decoration: underline;
+    margin: 0;
+    text-align: end;
+    color: #747474;
+    text-decoration-color: #747474;
+  }
+  
+  .page-link-label {
+    cursor: pointer;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+  }
+  
+  .page-link-label:hover {
+    color: #000;
+  }
+  
+  .form-btn {
+    padding: 10px 15px;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    border-radius: 20px;
+    border: 0 !important;
+    outline: 0 !important;
+    background: teal;
+    color: white;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  
+  .form-btn:active {
+    box-shadow: none;
+  }
+  
+  .sign-up-label {
+    margin: 0;
+    font-size: 10px;
+    color: #747474;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  }
+  
+  .sign-up-link {
+    margin-left: 1px;
+    font-size: 11px;
+    text-decoration: underline;
+    text-decoration-color: teal;
+    color: teal;
+    cursor: pointer;
+    font-weight: 800;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  }
+  
+  .buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 20px;
+    gap: 15px;
+  }
+  
+  .apple-login-button,
+      .google-login-button {
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+          rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-size: 11px;
+    gap: 5px;
+  }
+  
+  .apple-login-button {
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #000;
+  }
+  
+  .google-login-button {
+    border: 2px solid #747474;
+  }
+  
+  .apple-icon,
+      .google-icon {
+    font-size: 18px;
+    margin-bottom: 1px;
+  }
+  /*ERROR*/
+  .error {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    background: #EF665B;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px -3px #111;
+  }
+  
+  .error__icon {
+    width: 20px;
+    height: 20px;
+    transform: translateY(-2px);
+    margin-right: 8px;
+  }
+  
+  .error__icon path {
+    fill: #fff;
+  }
+  
+  .error__title {
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+  }
+  
+  .error__close {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  
+  .error__close path {
+    fill: #fff;
+  }
+  /* CATALOG*/
+
+.container {
+    text-align: center;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+#small-logo{
+  height: 50px;
+  width: 100px;
+}
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#seach-bar {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+button.btn-light {
+    border-radius: 5px;
+}
+
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.book {
+    text-align: center;
+    justify-content: space-around;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    margin-bottom: 20px; /* Añadido margen inferior para separar libros */
+}
+
+.book img {
+    max-width: 100%;
+    height: 200px; /* Tamaño fijo para todas las imágenes */
+    border-radius: 5px;
+    object-fit: cover; /* Ajusta el tamaño de la imagen sin distorsionar */
+}
+
+.book p {
+    margin: 10px 0;
+    color: #495057;
+}
+
+.btn-read {
+    margin-top: 10px;
+}
+.main-container{
+    height: 100vh;
+}
+
+.search {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  width: 50%;
+ }
+ 
+ 
+ 
+ .icon-search {
+  position: absolute;
+  left: 1rem;
+  fill: #9e9ea7;
+  width: 1rem;
+  height: 1rem;
+ }
+ 
+ #search-form{
+    margin: 20px;
+ }
+ #search{
+  padding-left: 2.5rem;
+ }
+ 
+/*USER PROFILE*/
+.user-data {
+    width: 530px;
+    border-radius: 2em;
+    padding: 10px;
+    background-color: #191919;
+    box-shadow: 5px 5px 30px rgb(4, 4, 4),
+                     -5px -5px 30px rgb(57, 57, 57);
+  }
+  
+  .profileimage {
+    background-color: transparent;
+    border: none;
+    margin-top: 20px;
+    border-radius: 5em;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .pfp {
+    border-radius: 35em;
+    fill: white;
+  }
+  
+  .data {
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 15px;
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  
+  .socialbar {
+    background-color: #191919;
+    border-radius: 3em;
+    width: 90%;
+    padding: 14px;
+    margin-top: 15px;
+    color: white;
+    box-shadow: 3px 3px 15px rgb(0, 0, 0),
+                     -3px -3px 15px rgb(58, 58, 58);
+  }
+  
+  .user-data a {
+    transition: 0.4s;
+    color: white
+  }
+  
+  #github:hover {
+    color: #c9510c;
+  }
+  
+  #instagram:hover {
+    color: #d62976;
+  }
+  
+  #facebook:hover {
+    color: #3b5998;
+  }
+  
+  #twitter:hover {
+    color: #00acee;
+  }
+/*SUBSCRIPTION*/
+/* Bootstrap Styles */
+.card {
+  width: 300px;
+  background: #00ffa0;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 0.5vmin solid #05060f;
+  box-shadow: 0.4rem 0.4rem #05060f;
+  overflow: hidden;
+  color: black;
+}
+
+/* Card content */
+.card-body {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card-title {
+  color: #05060f;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.price-value {
+  display: flex;
+  color: #05060f;
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.pricing-note {
+  opacity: 0.8;
+}
+
+/* Checklist */
+.list-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.list-group-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.subscriptions{
+  height: 90vh;
+  gap: 50px;
+}
+.subscription-form{
+  width: 80%;
+  justify-content: space-around;
+}
+/*PAYMENT*/
+.payment-input{
+  padding-left: 1rem;
+}
+/*CARDS*/
+/* Estilos para la tabla */
+.table-container {
+  width: 80%;
+  margin: auto;
+}
+
+.table {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.table th, .table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.table td {
+  background-color: #f5f5f5;
+}
+
+/* Estilos para los radios y etiquetas */
+.form-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-check-input {
+  margin-right: 10px;
+}
+
+/* Estilos de hover para la fila de la tabla */
+.table tbody tr:hover {
+  background-color: #ddd;
+}
+
+/* Estilos para los botones */
+.btn-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.btn-primary {
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+.options{
+  width: 80%;
+  justify-content: space-evenly;
+}
+.cards-btn{
+  width: 200px;
+  
+}
+.cards-table{
+  height: 90vh;
+}
+/*HISTORY*/
+.history{
+  height: 90vh;
+  gap: 50px;
 }
