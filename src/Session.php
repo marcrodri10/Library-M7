@@ -12,10 +12,12 @@
 
         static function setSession($session, $value, $sessionName = null){
             if($sessionName){
-                var_dump($_SESSION[$session]);
+                
                 $_SESSION[$session]->$sessionName = $value;
             }
-            else $_SESSION[$session] = $value;
+            else {
+                $_SESSION[$session] = $value;
+            }
         }
         static function getSession($session){
             return $_SESSION[$session];
