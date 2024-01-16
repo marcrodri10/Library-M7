@@ -33,6 +33,7 @@
                 'email' => $data['email'],
             ];
             try{
+                
                 Registry::get('database')
                     ->update('Users', $fields)
                     ->condition(['user_id'], 'Users', [$this->session::getSession('user_data')->getId()], '=')
@@ -40,7 +41,7 @@
                 
                 $userDb = Registry::get('database')
                     ->selectAll('Users')
-                    ->condition(['username'], 'Users', [$fields['username']], '=')
+                    ->condition(['user_id'], 'Users', [$this->session::getSession('user_data')->getId()], '=')
                     ->get();
             
                 $user = new User($userDb[0]->username, $userDb[0]->password, $userDb[0]->email, $userDb[0]->role, $userDb[0]->user_id);
