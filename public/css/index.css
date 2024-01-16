@@ -426,51 +426,43 @@ button.btn-light {
  }
  
 /*USER PROFILE*/
-.user-data {
-    width: 530px;
-    border-radius: 2em;
-    padding: 10px;
-    background-color: #191919;
-    box-shadow: 5px 5px 30px rgb(4, 4, 4),
-                     -5px -5px 30px rgb(57, 57, 57);
-  }
+.profile-container {
+  width: 350px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 20px 30px;
+  justify-content: space-around;
+  height: 500px;
+}
   
   .profileimage {
     background-color: transparent;
     border: none;
-    margin-top: 20px;
     border-radius: 5em;
     width: 100px;
-    height: 100px;
   }
   
   .pfp {
     border-radius: 35em;
-    fill: white;
+    fill: rgb(0, 0, 0);
   }
-  
   .data {
-    color: white;
+    color: rgb(0, 0, 0);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    padding: 15px;
-    font-size: 20px;
-    margin-top: 10px;
   }
   
   .socialbar {
-    background-color: #191919;
+    background-color: #ffffff;
     border-radius: 3em;
     width: 90%;
-    padding: 14px;
-    margin-top: 15px;
-    color: white;
-    box-shadow: 3px 3px 15px rgb(0, 0, 0),
-                     -3px -3px 15px rgb(58, 58, 58);
+
   }
   
-  .user-data a {
+  .socialbar a {
     transition: 0.4s;
-    color: white
+    color: rgb(0, 0, 0)
   }
   
   #github:hover {
@@ -492,7 +484,7 @@ button.btn-light {
 /* Bootstrap Styles */
 .card {
   width: 300px;
-  background: #00ffa0;
+  background: #e6e7e3;
   padding: 1.5rem;
   border-radius: 1rem;
   border: 0.5vmin solid #05060f;
