@@ -2,15 +2,10 @@
 include_once 'partials/header.tpl.php';
 
 use App\Session;
-/* <?php
-            if(Session::checkSession('error')) {
-                echo '<div class="error">'.Session::getSession('error').'</div>';
-                Session::deleteSession('error');
-            }
-        ?> */
+
 ?>
 
-<body>
+<body class="b-flex-center-center-row">
     <div class="form-container">
         <p class="title">Register</p>
         <?php

@@ -4,7 +4,7 @@ include_once 'partials/header.tpl.php';
 use App\Session;
 ?>
 
-<body>
+<body class="b-flex-center-center-col">
     <div class="form-container">
         <p class="title">Welcome back</p>
         <?php

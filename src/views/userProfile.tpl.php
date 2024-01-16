@@ -2,8 +2,8 @@
 include_once 'partials/header.tpl.php';
 ?>
 
-<body>
-    <div class="user-data b-flex-center-center-col">
+<body class="b-flex-center-center-row">
+    <div class="profile-container b-flex-center-center-col">
         <div class="profileimage">
             <svg class="pfp" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 122.88">
                 <g>
@@ -11,12 +11,15 @@ include_once 'partials/header.tpl.php';
                 </g>
             </svg>
         </div>
-        <div class="data Name">
-            <p><?php echo $userData->getUsername() ?></p>
+        <div class="data-info b-flex-center-center-col">
+            <div class="data Name">
+                <p><?php echo $userData->getUsername() ?></p>
+            </div>
+            <div class="data Email">
+                <p><?php echo $userData->getEmail() ?></p>
+            </div>
         </div>
-        <div class="data Email">
-            <p><?php echo $userData->getEmail() ?></p>
-        </div>
+        
         <a class="cssbuttons-io-button" href="/updateUserProfile">
                 Edit
                 <div class="icon">

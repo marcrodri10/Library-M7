@@ -9,8 +9,8 @@
             }
         ?> */
 ?>
-<body>
-    <form class="user-data b-flex-center-center-col" action='updateUserProfile/formHandler' method="post">
+<body class="b-flex-center-center-row">
+    <form class="profile-container b-flex-center-center-col" action='updateUserProfile/formHandler' method="post">
         <div class="profileimage">
             <svg class="pfp" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 122.88">
                 <g>
@@ -18,6 +18,12 @@
                 </g>
             </svg>
         </div>
+        <?php
+            if(Session::checkSession('error')){
+                echo Session::getSession('error');
+                Session::deleteSession('error');
+            }
+        ?>
         <div class="data Name">
         <input class="input" value="<?php echo $userData->getUsername() ?>" name="username">
         </div>
