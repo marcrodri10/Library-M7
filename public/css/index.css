@@ -141,20 +141,7 @@ body{
       transform: translateX(100%);
   }
 }
-.animated-div {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 200px; /* ajusta según tus necesidades */
-  background-color: #3498db;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-  display: none;
-}
+
 /*HOME*/
 #buttons-div{
     display: flex;
@@ -541,6 +528,10 @@ button.btn-light {
   width: 80%;
   justify-content: space-around;
 }
+.subscriptions-group{
+  gap: 40px;
+}
+
 /*PAYMENT*/
 .payment-input{
   padding-left: 1rem;
@@ -624,4 +615,28 @@ button.btn-light {
 .history{
   height: 90vh;
   gap: 50px;
+}
+
+/*SUBSCRIPTION ALERT*/
+.animated-div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  background-color: #3498db;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 100;
+  padding: 5px 20px;
+  justify-content: space-around;
+  min-height: 120px;
+}
+.animated-div p{
+  margin: 0;
+}
+.renew{
+  padding: 10px 20px;
 }
