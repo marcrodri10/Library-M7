@@ -7,7 +7,7 @@ use App\Model\File;
 include_once 'partials/header.tpl.php';
 
 if (Session::getSession('user_subscription') == false || Session::getSession('user_subscription')->getIsActive() == 0) include_once 'partials/modalSubscription.tpl.php';
-else {
+else if(Session::getSession('days_to_finish') <= 10){
     include_once 'partials/membershipRemember.tpl.php';
 }
 ?>
@@ -39,7 +39,15 @@ else {
 
                 if (file_exists("public/markdown/book_" . $bookClass->getBookId() . ".md")) {
                     if (Session::getSession('user_subscription') !== false && Session::getSession('user_subscription')->getIsActive() == 1) {
-                        echo  "<a class='btn btn-primary btn-read' href='/book/read/" . $bookClass->getBookId() . "'>Read</a>";
+                        echo  '<a class="cssbuttons-io-button" href="/book/read/'.$bookClass->getBookId().'">
+                        Read
+                        <div class="icon">
+                            <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </a>';
                     } else {
                         echo '<a class="cssbuttons-io-button" href="/catalog/formHandler">
                         Read

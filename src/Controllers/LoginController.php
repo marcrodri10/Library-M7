@@ -8,6 +8,7 @@
     use App\FormHandler;
     use App\Model\User;
     use App\Model\Subscription;
+    use DateTime;
     class LoginController extends Controller {
       
         function __construct($session,$request)
@@ -60,20 +61,30 @@
                  
                     $this->session::setSession('user_subscription', $subscription);
                     
-                    $currentDate = new \DateTime();
+                    $currentDate = new DateTime();
                     
             
-                    if($this->session::getSession('user_subscription') !== false && $currentDate->format('Y-m-d') > Session::getSession('user_subscription')->getFinishDate()) {
-                        Registry::get('database')
-                            ->update('Subscriptions', [
-                                'is_active' => 0,
-                            ])
-                            ->condition(['user_id'], 'Subscriptions', [$this->session::getSession('user_data')->getId()], '=')
-                            ->get();
-                        
-                        $this->session::getSession('user_subscription')->setIsActive(0);
+                    if($this->session::getSession('user_subscription') !== false) {
+                        if($currentDate->format('Y-m-d') > Session::getSession('user_subscription')->getFinishDate()){
+                            Registry::get('database')
+                                ->update('Subscriptions', [
+                                    'is_active' => 0,
+                                ])
+                                ->condition(['user_id'], 'Subscriptions', [$this->session::getSession('user_data')->getId()], '=')
+                                ->get();
+                            
+                            $this->session::getSession('user_subscription')->setIsActive(0);
+                        }
+                        else {
+                            $finish = new DateTime(Session::getSession('user_subscription')->getFinishDate());
 
-                        
+                            $now = new DateTime();
+    
+                            $days = $finish->diff($now);
+
+                            $days = ($days->y)*365 + ($days->m)*30 + $days->d + 1;
+                            Session::setSession('days_to_finish', $days);
+                        }
                     }
                     
                     if($fields['username'] == $user->getUsername()){

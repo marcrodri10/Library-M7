@@ -10,6 +10,7 @@ use App\Session;
     <div class="subscriptions b-flex-center-center-col">
         <h1>Subscriptions plans</h1>
         <form action="/card/formHandler" method="post" class="b-flex-center-center-row subscription-form">
+            <div class="subscriptions-group b-flex-center-center-col">
             <?php 
             if(Session::getSession('user_subscription') === false){
                 include_once 'partials/subscriptionTrial.tpl.php';
@@ -22,8 +23,16 @@ use App\Session;
             if(Session::getSession('user_subscription') !== false ){
                 if(Session::getSession('user_subscription')->getIsActive() == 1){
                     if(Session::checkSession('days_to_finish') && Session::getSession('days_to_finish') <= 10){
-                        echo '<h2 class="text-align">Your subscription will finish in '. Session::getSession('days_to_finish') .' days</h2>
-                            <button class="btn btn-primary" name="subscription" value="renew">Renew subscription</button>';
+                        echo '<div class="b-flex-center-center-col"><h2 class="text-align">Your subscription will finish in '. Session::getSession('days_to_finish') .' days</h2>
+                        <button class="cssbuttons-io-button" name="subscription" value="renew">
+                        Renew
+                        <div class="icon">
+                            <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </button></div>';
                     }
                     
                     include_once 'partials/cancelSubscription.tpl.php';
