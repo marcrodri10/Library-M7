@@ -2,24 +2,14 @@
 
 namespace App\Model;
 use App\Checker\Checker;
-class User {
-    protected $id;
-    protected $username;
-    protected $password;
-    protected $email;
-    protected $role;
+use App\Model\User;
+class Reader extends User{
 
-    public function __construct($username, $password, $email, $role, $id = null) {
-        $message = "";
-        if($this->setUsername($username) == -1) $message .= "Bad Username";
-        if($this->setPassword($password) == -1) $message .= "Bad Password";
-        if($this->setEmail($email) == -1) $message .= "Bad Email";
-        $this->setRole($role);
-        if($id != null) $this->setId($id);
-
-        if(strlen($message) > 0) throw new \Exception($message);
+    protected $readedBooks;
+    public function __construct($username, $password, $email, $readedBooks, $id = null){
+        parent::__construct($username, $password, $email, 'reader' , $id);
+        $this->readedBooks = $readedBooks;
     }
-
     public function getId() {
         if($this->id != null) return $this->id;  
     }
@@ -79,6 +69,16 @@ class User {
     public function setRole($role) {
         if(Checker::checkString($role)){
             $this->role = $role;
+        }
+        
+    }
+    public function getReadedBooks() {
+        return $this->readedBooks;
+    }
+
+    public function setReadedBooks($readedBooks) {
+        if(Checker::checkString($readedBooks)){
+            $this->readedBooks = $readedBooks;
         }
         
     }
