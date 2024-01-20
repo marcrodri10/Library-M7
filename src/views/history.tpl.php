@@ -8,7 +8,10 @@ include_once 'partials/header.tpl.php';
         <h1>User Book History</h1>
         <?php
           if(Session::getSession('user_data')->getRole() == 'reader'){
-            echo '<p>You have read a total of '.Session::getSession('user_data')->getReadedBooks().' books</p>';
+            if(Session::getSession('user_data')->getReadedBooks() != 0){
+              echo '<h2>You have read a total of '.Session::getSession('user_data')->getReadedBooks().' books</h2>';
+            }
+            else echo '<h2>You have not started any book yet.</h2>';
           }
           if(sizeof($userHistoryBooks) > 0){
             echo '<table class="table">
@@ -29,7 +32,7 @@ include_once 'partials/header.tpl.php';
             }
               
           }
-          else echo '<h2>You have not started any book yet.</h2>'
+          
         ?>
         </tbody>
         </table>
