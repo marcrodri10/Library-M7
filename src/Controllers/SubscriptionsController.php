@@ -104,11 +104,11 @@
                         }
                         else {
                             if($type[1] == 'renew'){
+                                $start = new DateTime($this->session::getSession('user_subscription')->getStartDate());
                                 $finish = new DateTime($this->session::getSession('user_subscription')->getFinishDate());
-                                
                                 $fields = [
                                     'user_id' => $this->session::getSession('user_data')->getId(),
-                                    'start_date' => $finish->format('Y-m-d'),
+                                    'start_date' => $start->format('Y-m-d'),
                                     'finish_date' => $finish->add(new DateInterval('P1M'))->format('Y-m-d'),
                                     'is_active' => 1,
                                     'type' => 'month',
