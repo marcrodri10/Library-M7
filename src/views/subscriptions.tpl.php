@@ -10,7 +10,7 @@ use App\Session;
     <div class="subscriptions b-flex-center-center-col">
         <h1>Subscriptions plans</h1>
         <form action="/card/formHandler" method="post" class="b-flex-center-center-row subscription-form">
-            <div class="subscriptions-group b-flex-center-center-col">
+            <div class="subscriptions-group b-flex-center-center-row">
             <?php 
             if(Session::getSession('user_subscription') === false){
                 include_once 'partials/subscriptionTrial.tpl.php';
@@ -23,7 +23,7 @@ use App\Session;
             if(Session::getSession('user_subscription') !== false ){
                 if(Session::getSession('user_subscription')->getIsActive() == 1){
                     if(Session::checkSession('days_to_finish') && Session::getSession('days_to_finish') <= 10){
-                        echo '<div class="b-flex-center-center-col"><h2 class="text-align">Your subscription will finish in '. Session::getSession('days_to_finish') .' days</h2>
+                        echo '<div class="renew-sub b-flex-center-center-col"><div class="b-flex-center-center-col"><h2 class="text-align">Your subscription will finish in '. Session::getSession('days_to_finish') .' days</h2>
                         <button class="cssbuttons-io-button" name="subscription" value="renew">
                         Renew
                         <div class="icon">
@@ -36,6 +36,7 @@ use App\Session;
                     }
                     
                     include_once 'partials/cancelSubscription.tpl.php';
+                    echo '</div>';
                 }
                 else {
                     include_once 'partials/subscriptionMonth.tpl.php';
