@@ -19,8 +19,9 @@
             $userHistoryBooks = Registry::get('database')
                 ->select('Books', ['title'])
                 ->join('Books', 'History', 'book_id', 'INNER')
+                ->condition(['user_id'], 'History', [$this->session::getSession('user_data')->getId()], '=')
                 ->get();
-
+            
             echo View::render('history', ['userHistoryBooks' => $userHistoryBooks]);
         }
 
