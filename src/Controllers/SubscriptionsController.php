@@ -140,7 +140,7 @@
                     ];
 
                     Registry::get('database')
-                        ->insert('payments', $paymentFields)
+                        ->insert('Payments', $paymentFields)
                         ->get(); 
 
                     $subscription = new Subscription($userSubscription[0]->user_id, $userSubscription[0]->start_date, 
