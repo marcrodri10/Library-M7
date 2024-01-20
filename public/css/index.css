@@ -646,3 +646,20 @@ button.btn-light {
 .renew-sub{
   gap: 20px;
 }
+.container-book{
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+.container-book h1 {
+  color: #333;
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+.container-book p {
+  color: #666;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
