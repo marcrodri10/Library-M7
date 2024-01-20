@@ -22,14 +22,25 @@
                 ->get();
             
             if(sizeof($userHistory) != 0){
+                $array = [];
+                foreach ($userHistory as $item) {
+                    $array[] =  $item->book_id;
+                }
                 
-                if(!in_array($book_id,get_object_vars($userHistory[0]))){
+                if(!in_array($book_id,$array)){
                     Registry::get('database')
                         ->insert('History', [
                             'user_id' => $this->session::getSession('user_data')->getId(),
                             'book_id' => $book_id]
                         )
                         ->get();
+                    if(Session::getSession('user_data')->getRole() == 'reader'){
+                        $this->session::getSession('user_data')->setReadedBooks($this->session::getSession('user_data')->getReadedBooks() + 1);
+                        Registry::get('database')
+                            ->update('Readers', ['readed_books' => $this->session::getSession('user_data')->getReadedBooks()])
+                            ->condition(['user_id'], 'Readers', [$this->session::getSession('user_data')->getId()], '=')
+                            ->get();
+                    }
                 }
             }
             else {
@@ -40,7 +51,15 @@
                         'book_id' => $book_id]
                     )
                     ->get();
+                if(Session::getSession('user_data')->getRole() == 'reader'){
+                    $this->session::getSession('user_data')->setReadedBooks($this->session::getSession('user_data')->getReadedBooks() + 1);
+                    Registry::get('database')
+                        ->update('Readers', ['readed_books' => $this->session::getSession('user_data')->getReadedBooks()])
+                        ->condition(['user_id'], 'Readers', [$this->session::getSession('user_data')->getId()], '=')
+                        ->get();
+                }
             }
+           
 
             echo View::render('book', ['book_id' => $book_id]);
         }
