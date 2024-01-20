@@ -125,7 +125,7 @@ class SubscriptionTestController{
             
             try{
                 $currentDate = new DateTime();
-                $payment = new Payment($user->getId(), $type[2], $currentDate->format('Y-m-d'));
+                $payment = new Payment($user->getId(), $type[2], $currentDate->format('Y-m-d'), $userCard->card_id);
                 
                 $paymentFields = [
                     'user_id' => $payment->getUserId(),
