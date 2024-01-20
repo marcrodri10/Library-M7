@@ -12,17 +12,15 @@ CREATE TABLE Users (
     role VARCHAR(255) NOT NULL
 );
 CREATE TABLE Readers (
+    reader_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+    readed_books INT NOT NULL DEFAULT 0,
     CONSTRAINT fk_readers_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
 CREATE TABLE Librarians (
-    reader_id INT AUTO_INCREMENT PRIMARY KEY,
+    librarian_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    reade_books INT NOT NULL DEFAULT 0,
     CONSTRAINT fk_librarians_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 
