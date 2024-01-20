@@ -31,7 +31,7 @@
                 Ad-Free Experience
             </li>
             <li class="b-flex-center-center-row">
-                <button class="cssbuttons-io-button" type="submit" name="subscription" value="trial">
+                <button class="cssbuttons-io-button w-100" type="submit" name="subscription" value="trial">
                     Subscribe
                     <div class="icon b-flex-center-center">
                         <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
