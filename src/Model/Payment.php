@@ -6,12 +6,13 @@ class Payment {
     protected $user_id;
     protected $amount;
     protected $date;
-
-    public function __construct($user_id, $amount, $date) {
+    protected $cardId;
+    public function __construct($user_id, $amount, $date, $cardId) {
         $this->setUserId($user_id);
         $this->setAmount($amount);
         $this->setDate($date);
-    }
+        $this->setCardId($cardId);
+    }   
 
     public function getUserId() {
         return $this->user_id;
@@ -36,6 +37,12 @@ class Payment {
     public function setDate($date) {
         $this->date = $date;
     }
+    public function getCardId() {
+        return $this->cardId;
+    }
+
+    public function setCardId($cardId) {
+        $this->cardId = $cardId;
+    }
 }
 
-?>
