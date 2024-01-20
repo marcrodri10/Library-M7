@@ -5,10 +5,12 @@ use App\Checker\Checker;
 use App\Model\User;
 class Reader extends User{
 
+    protected $reader_id;
     protected $readedBooks;
-    public function __construct($username, $password, $email, $readedBooks, $id = null){
+    public function __construct($username, $password, $email, $id = null,$reader_id = null, $readedBooks = 0){
         parent::__construct($username, $password, $email, 'reader' , $id);
         $this->readedBooks = $readedBooks;
+        if($this->reader_id != null) $this->setReaderId($reader_id);
     }
     public function getId() {
         if($this->id != null) return $this->id;  
@@ -19,6 +21,14 @@ class Reader extends User{
         $this->id = $id;
     }
 
+    public function getReaderId() {
+        if($this->id != null) return $this->id;  
+    }
+
+    // Setter para establecer el nombre del usuario
+    public function setReaderId($reader_id) {
+        $this->reader_id = $reader_id;
+    }
     // Getter para obtener el nombre del usuario
     public function getUsername() {
         return $this->username;
@@ -77,9 +87,7 @@ class Reader extends User{
     }
 
     public function setReadedBooks($readedBooks) {
-        if(Checker::checkString($readedBooks)){
-            $this->readedBooks = $readedBooks;
-        }
-        
+        $this->readedBooks = $readedBooks;
+ 
     }
 }
