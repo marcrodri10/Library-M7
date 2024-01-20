@@ -1,4 +1,5 @@
 <?php
+use App\Session;
 include_once 'partials/header.tpl.php';
 ?>
 <body>
@@ -6,7 +7,9 @@ include_once 'partials/header.tpl.php';
     <div class="container-fluid  b-flex-center-center-col history">
         <h1>User Book History</h1>
         <?php
-          
+          if(Session::getSession('user_data')->getRole() == 'reader'){
+            echo '<p>You have read a total of '.Session::getSession('user_data')->getReadedBooks().' books</p>';
+          }
           if(sizeof($userHistoryBooks) > 0){
             echo '<table class="table">
             <thead>
