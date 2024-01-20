@@ -34,11 +34,11 @@
                     ->selectAll('Cards')
                     ->condition(['card_id'], 'Cards', [$idCard], '=')
                     ->get();
-                
+                $userCard = get_object_vars($userCard[0]);
                 $type = explode('-',$data['user-card']);
             }
             else {
-                $card_fields = [
+                $userCard = [
                     'name' => $data['name'],
                     'card' => $data['card'],
                     'cvv' => $data['cvv'],
@@ -47,7 +47,7 @@
                 $type = explode('-', $data['payment']);
                 
                 Registry::get('database')
-                    ->insert('Cards', $card_fields)
+                    ->insert('Cards', $userCard)
                     ->get();
             }
             try{
@@ -131,18 +131,24 @@
 
                     
                     $currentDate = new DateTime();
-                    $payment = new Payment($this->session::getSession('user_data')->getId(), $type[2], $currentDate->format('Y-m-d'));
                     
+                    $card = Registry::get('database')
+                        ->select('Cards', ['card_id'])
+                        ->condition(['card'], 'Cards', [$userCard['card']], '=')
+                        ->get();
+                    $payment = new Payment($this->session::getSession('user_data')->getId(), $type[2], $currentDate->format('Y-m-d'), $card[0]->card_id);
+
                     $paymentFields = [
                         'user_id' => $payment->getUserId(),
                         'amount' => $payment->getAmount(),
                         'date' => $payment->getDate(),
+                        'card_id' => $payment->getCardId(),
                     ];
-
+                    
                     Registry::get('database')
                         ->insert('Payments', $paymentFields)
                         ->get(); 
-
+                    
                     $subscription = new Subscription($userSubscription[0]->user_id, $userSubscription[0]->start_date, 
                     $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
 
