@@ -7,8 +7,11 @@ use App\Model\File;
 include_once 'partials/header.tpl.php';
 
 if (Session::getSession('user_subscription') == false || Session::getSession('user_subscription')->getIsActive() == 0) include_once 'partials/modalSubscription.tpl.php';
-else if(Session::getSession('days_to_finish') <= 10){
-    include_once 'partials/membershipRemember.tpl.php';
+else if(Session::checkSession('days_to_finish')){
+    if(Session::getSession('days_to_finish') <= 10){
+        include_once 'partials/membershipRemember.tpl.php';
+    }
+    
 }
 ?>
 
