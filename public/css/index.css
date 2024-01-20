@@ -467,6 +467,9 @@ button.btn-light {
   #twitter:hover {
     color: #00acee;
   }
+  .profile-div{
+    height: 90vh;
+  }
 /*SUBSCRIPTION*/
 /* Bootstrap Styles */
 .card {
@@ -639,4 +642,7 @@ button.btn-light {
 }
 .renew{
   padding: 10px 20px;
+}
+.renew-sub{
+  gap: 20px;
 }
