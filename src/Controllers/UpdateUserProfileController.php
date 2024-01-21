@@ -21,17 +21,16 @@
             ]);
         }
 
-        function formHandler(){
-            $handler = new FormHandler($_POST);
-            $data = $handler->getPostData();
-            $this->edit($data);
-        }
-        function edit($data){
-            
-            $fields = [
-                'username' => $data['username'],
-                'email' => $data['email'],
-            ];
+        function edit(){
+            $fields = [];
+
+            foreach($_POST as $key => $value){
+                if($value != ''){
+                    if($key == 'password') $fields = array_merge($fields, [$key => password_hash($value, PASSWORD_DEFAULT)]);
+                    else $fields = array_merge($fields, [$key => $value]);
+                    
+                }
+            }
             try{
                 
                 Registry::get('database')

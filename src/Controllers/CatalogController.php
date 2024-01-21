@@ -12,24 +12,16 @@
         {
             parent::__construct($session,$request);
         }        
-        function formHandler(){
-            $handler = new FormHandler($_POST);
-            $data = $handler->getPostData();
-            $this->index($data);
-        }
-        function index($data = []){
-            if(isset($data['search']) && $data['search'] != ''){
+        
+        function index(){
+            
+            if(!isset($_POST['reset']) && isset($_POST['search']) && $_POST['search'] != ''){
                 $books = Registry::get('database')
                     ->selectAll('Books')
-                    ->condition(['title'], 'Books', ['%'.$data['search'].'%'], 'LIKE')
+                    ->condition(['title'], 'Books', ['%'.$_POST['search'].'%'], 'LIKE')
                     ->get();
                 
-                $this->session::setSession('search', $data['search']);
-                
-                $files = Registry::get('database')
-                    ->selectAll('Files')
-                    ->condition(['book_id'], 'Files', [$books[0]->book_id], '=')
-                    ->get();
+                $this->session::setSession('search', $_POST['search']);
 
             }
             else {
@@ -38,15 +30,10 @@
                     ->get();
                 
                 $this->session::deleteSession('search');
-
-                $files = Registry::get('database')
-                    ->selectAll('Files')
-                    ->get();
             }
             
             echo View::render('catalog', [
                 "books" => $books,
-                "files" => $files,
             ]);
             
         }

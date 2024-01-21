@@ -19,14 +19,8 @@ use Exception;
             parent::__construct($session,$request);
         }        
         
-        function formHandler(){
 
-            $handler = new FormHandler($_POST);
-            $data = $handler->getPostData();
-
-        }
-
-        function showPayment($data = []){
+        function showPayment(){
             echo View::render('payment', [
                 'subscription' => $this->session::getSession('subscription_type'),
                 'type' => 'pay',

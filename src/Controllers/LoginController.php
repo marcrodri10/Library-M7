@@ -22,18 +22,11 @@
             echo View::render('login');
         }
 
-        function formHandler(){
-            //manage form and save data into variable to redirect to the main function
-            $handler = new FormHandler($_POST);
-            $data = $handler->getPostData();
-            $this->log($data);
-        }
-        function log($data){
-
+        function log(){
             //save input variables in an array
             $fields = [
-                'username' => $data['username'],
-                'password' => $data['password'],
+                'username' => $_POST['username'],
+                'password' => $_POST['password'],
             ];
 
             
@@ -63,11 +56,12 @@
                                         ->join('Readers', 'Users', 'user_id', 'INNER')
                                         ->condition(['user_id'], 'Readers', [$user->getId()], '=')
                                         ->get();
-                                    
+                                   
                                     $readerClass = new Reader($readerData[0]->username, $readerData[0]->password,
                                         $readerData[0]->email, $readerData[0]->user_id, $readerData[0]->reader_id, $readerData[0]->readed_books);
                                     
-                                        $this->session::setSession('user_data', $readerClass);
+                                    $this->session::setSession('user_data', $readerClass);
+                                    
                                 }
                                 
                             }
@@ -114,7 +108,6 @@
                                 }
                             }
                             else $this->session::deleteSession('days_to_finish');
-                            
                             $this->session::deleteSession('error');
                             header('Location:/catalog');
                         }

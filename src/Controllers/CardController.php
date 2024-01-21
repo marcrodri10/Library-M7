@@ -12,21 +12,15 @@
         {
             parent::__construct($session,$request);
         }        
-        function formHandler(){
-
-            $handler = new FormHandler($_POST);
-            $data = $handler->getPostData();
-            $this->showCards($data);
-        }
-        function showCards($data=[]){
-            if($data){
-                if($data['subscription'] == 'cancel'){
+        function showCards(){
+            if($_POST){
+                if($_POST['subscription'] == 'cancel'){
                     
                     header('Location:/payment/cancel');
                     exit();
                 }
                 else {
-                    $this->session::setSession('subscription_type', $data['subscription']);
+                    $this->session::setSession('subscription_type', $_POST['subscription']);
                     
                 }
             }

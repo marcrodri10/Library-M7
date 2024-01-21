@@ -17,16 +17,11 @@
         function index(){
             echo View::render('register');
         }
-        function formHandler(){
-            $handler = new FormHandler($_POST);
-            $data = $handler->getPostData();
-            $this->registry($data);
-        }
-        function registry($data){
+        function registry(){
             try{
-                if($data['password'] == $data['confirmpass']){
+                if($_POST['password'] == $_POST['confirmpass']){
                     
-                    $user = new User($data['username'], $data['password'], $data['email'], 'reader');
+                    $user = new User($_POST['username'], $_POST['password'], $_POST['email'], 'reader');
                     $fields = [
                         'username' => $user->getUsername(),
                         'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT),

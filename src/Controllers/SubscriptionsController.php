@@ -21,30 +21,25 @@
             echo View::render('subscriptions');
         }
 
-        function formHandler(){
-            $handler = new FormHandler($_POST);
-            $data = $handler->getPostData();
-            $this->subscribe($data);
-        }
-
-        function subscribe($data=[]){
-            if(array_keys($data)[0] == 'user-card'){
-                $idCard = (explode('-', $data['user-card']))[3];
+        function subscribe(){
+            
+            if(array_keys($_POST)[0] == 'user-card'){
+                $idCard = (explode('-', $_POST['user-card']))[3];
                 $userCard = Registry::get('database')
                     ->selectAll('Cards')
                     ->condition(['card_id'], 'Cards', [$idCard], '=')
                     ->get();
                 $userCard = get_object_vars($userCard[0]);
-                $type = explode('-',$data['user-card']);
+                $type = explode('-',$_POST['user-card']);
             }
             else {
                 $userCard = [
-                    'name' => $data['name'],
-                    'card' => $data['card'],
-                    'cvv' => $data['cvv'],
+                    'name' => $_POST['name'],
+                    'card' => $_POST['card'],
+                    'cvv' => $_POST['cvv'],
                     'user_id' => $this->session::getSession('user_data')->getId()
                 ];
-                $type = explode('-', $data['payment']);
+                $type = explode('-', $_POST['payment']);
                 
                 Registry::get('database')
                     ->insert('Cards', $userCard)
