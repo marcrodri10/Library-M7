@@ -10,7 +10,10 @@ class Reader extends User{
     public function __construct($username, $password, $email, $id = null,$reader_id = null, $readedBooks = 0){
         parent::__construct($username, $password, $email, 'reader' , $id);
         $this->readedBooks = $readedBooks;
-        if($this->reader_id != null) $this->setReaderId($reader_id);
+
+        if($reader_id != null) {
+            $this->setReaderId($reader_id);
+        }
     }
     public function getId() {
         if($this->id != null) return $this->id;  
