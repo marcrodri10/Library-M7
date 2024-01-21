@@ -473,7 +473,6 @@ button.btn-light {
 /*SUBSCRIPTION*/
 /* Bootstrap Styles */
 .card {
-  width: 300px;
   background: #e6e7e3;
   padding: 1.5rem;
   border-radius: 1rem;
@@ -524,8 +523,8 @@ button.btn-light {
   gap: 4px;
 }
 .subscriptions{
-  height: 90vh;
   gap: 50px;
+  margin-top: 100px;
 }
 .subscription-form{
   width: 80%;
@@ -662,4 +661,11 @@ button.btn-light {
   color: #666;
   font-size: 1.2em;
   margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 580px) {
+  .subscriptions-group{
+    flex-direction: column;
+    height: 100%;
+  }
 }
