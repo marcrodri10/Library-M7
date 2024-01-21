@@ -15,7 +15,7 @@ class SubscriptionTestController{
     function index(){
         $data = [
             'name' => 'Marc',
-            'card' => '123456',
+            'card' => '12345678',
             'cvv' => '123',
             'user_id' => 1,
             'payment' => 'pay-trial-0',
@@ -42,7 +42,7 @@ class SubscriptionTestController{
         
         $userCard = Registry::get('database')
             ->selectAll('Cards')
-            ->condition('user_id', 'Cards', $data['user_id'], '=')
+            ->condition(['user_id'], 'Cards', [$data['user_id']], '=')
             ->get();
         
         if(sizeof($userCard) == 0){
@@ -119,13 +119,13 @@ class SubscriptionTestController{
             }
             $userSubscription = Registry::get('database')
                 ->selectAll('Subscriptions')
-                ->condition('user_id', 'Subscriptions', $user->getId(), '=')
+                ->condition(['user_id'], 'Subscriptions', [$user->getId()], '=')
                 ->get();
 
             
             try{
                 $currentDate = new DateTime();
-                $payment = new Payment($user->getId(), $type[2], $currentDate->format('Y-m-d'), $userCard->card_id);
+                $payment = new Payment($user->getId(), $type[2], $currentDate->format('Y-m-d'), $userCard[0]->card_id);
                 
                 $paymentFields = [
                     'user_id' => $payment->getUserId(),
