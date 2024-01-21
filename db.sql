@@ -44,13 +44,22 @@ CREATE TABLE History (
     CONSTRAINT fk_history_users FOREIGN KEY (user_id) REFERENCES Users(user_id),
     CONSTRAINT fk_history_book FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
-
+CREATE TABLE Cards (
+    card_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    card VARCHAR(255) NOT NULL,
+    cvv INT NOT NULL,
+    user_id INT NOT NULL,
+    CONSTRAINT fk_card_user FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
 CREATE TABLE Payments (
     payment_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     amount INT NOT NULL,
     date DATE NOT NULL,
-    CONSTRAINT fk_payment_users FOREIGN KEY (user_id) REFERENCES Users(user_id)
+    card_id INT NOT NULL,
+    CONSTRAINT fk_payment_users FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    CONSTRAINT fk_payment_cards FOREIGN KEY (card_id) REFERENCES Cards(card_id)
 );
 
 
@@ -74,14 +83,7 @@ CREATE TABLE Files (
     CONSTRAINT fk_files_book FOREIGN KEY (book_id) REFERENCES Books(book_id)
 );
 
-CREATE TABLE Cards (
-    card_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    card VARCHAR(255) NOT NULL,
-    cvv INT NOT NULL,
-    user_id INT NOT NULL,
-    CONSTRAINT fk_card_user FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
+
 
 INSERT INTO Books (book_id, title, author, genre, price) VALUES
 (1, 'El señor de los anillos', 'J.R.R. Tolkien', 'Fantasía', 29.99),
