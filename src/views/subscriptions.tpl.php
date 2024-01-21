@@ -9,7 +9,7 @@ use App\Session;
     <?php include_once 'partials/nav.tpl.php'; ?>
     <div class="subscriptions b-flex-center-center-col">
         <h1>Subscriptions plans</h1>
-        <form action="/card/formHandler" method="post" class="b-flex-center-center-row subscription-form">
+        <form action="/card/showCards" method="post" class="b-flex-center-center-row subscription-form">
             <div class="subscriptions-group b-flex-center-center-row">
             <?php 
             if(Session::getSession('user_subscription') === false){

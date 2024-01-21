@@ -13,17 +13,18 @@ else if(Session::checkSession('days_to_finish')){
     }
     
 }
+
 ?>
 
 <body>
     <div class="main-container">
         <?php include_once 'partials/nav.tpl.php'; ?>
-        <form action="/catalog/formHandler" method="post" id="search-form" class="b-flex-center-center-row">
+        <form action="/catalog" method="post" id="search-form" class="b-flex-center-center-row">
             <div class="search">
             <svg class="icon-search" aria-hidden="true" viewBox="0 0 24 24"><g><path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"></path></g></svg>
                 <input type="text" name="search" id="search" class="form-control input" placeholder="Search" value="<?php echo Session::checkSession('search') ? Session::getSession('search') : ''; ?>">
                 <?php if (Session::checkSession('search')) { ?>
-                    <button type="submit" class="btn btn-light">RESET</button>
+                    <button type="submit" class="btn btn-light" name="reset" value="reset">RESET</button>
                 <?php } ?>
             </div>
         </form>
@@ -32,7 +33,6 @@ else if(Session::checkSession('days_to_finish')){
             <?php
             foreach ($books as $book => $b) {
                 $bookClass = new Book($b->book_id, $b->title, $b->author, $b->genre, $b->price);
-                $fileClass = new File($files[$book]->file_id, $files[$book]->book_id, $files[$book]->route);
                 echo '<div class="book b-flex-center-center-col">';
                 echo "<img src='/public/images/book_" . $bookClass->getBookId() . ".jpg' class='img-fluid'>";
                 echo "  <p><strong>Title:</strong> " . $bookClass->getTitle() . "</p>
@@ -52,7 +52,7 @@ else if(Session::checkSession('days_to_finish')){
                         </div>
                     </a>';
                     } else {
-                        echo '<a class="cssbuttons-io-button" href="/catalog/formHandler">
+                        echo '<a class="cssbuttons-io-button" href="/catalog">
                         Read
                         <div class="icon">
                             <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

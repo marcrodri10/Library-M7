@@ -20,7 +20,7 @@ use App\Session;
             Session::deleteSession('error');
         }
         ?>
-        <form class="form" action='/register/formHandler' method="post">
+        <form class="form" action='/register/registry' method="post">
             <input type="text" class="input" placeholder="Username" name="username" required>
             <input type="email" class="input" placeholder="Email" name="email" required>
             <input type="password" class="input" placeholder="Password" name="password" required>

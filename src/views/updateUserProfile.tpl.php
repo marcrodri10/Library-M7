@@ -12,7 +12,7 @@
 <body class="">
     <?php include_once 'partials/nav.tpl.php'; ?>
     <div class="profile-div b-flex-center-center-col">
-    <form class="profile-container b-flex-center-center-col" action='updateUserProfile/formHandler' method="post">
+    <form class="profile-container b-flex-center-center-col" action='/updateUserProfile/edit' method="post">
         <div class="profileimage">
             <svg class="pfp" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 122.88">
                 <g>
@@ -32,10 +32,13 @@
             }
         ?>
         <div class="data Name">
-        <input class="input" value="<?php echo $userData->getUsername() ?>" name="username">
+        <input class="input" value="<?php echo $userData->getUsername() ?>" name="username" placeholder="Username">
         </div>
         <div class="data Email">
-            <input class="input" value="<?php echo $userData->getEmail() ?>" name="email">
+            <input class="input" type="email" value="<?php echo $userData->getEmail() ?>" name="email" placeholder="Email">
+        </div>
+        <div class="data password">
+            <input type="password" class="input" value="" name="password" placeholder="Password">
         </div>
         <button type="submit" class="cssbuttons-io-button" href="/updateUserProfile">
                 Save

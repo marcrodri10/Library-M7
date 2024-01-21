@@ -19,7 +19,7 @@ use App\Session;
                 Session::deleteSession('error');
             }
         ?>
-        <form class="form" action='/login/formHandler' method="post">
+        <form class="form" action='/login/log' method="post">
             <input type="text" class="input" placeholder="Username" name="username" required>
             <input type="password" class="input" placeholder="Password" name="password" required>
             <p class="page-link">

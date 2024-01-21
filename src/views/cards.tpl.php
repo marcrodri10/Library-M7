@@ -6,7 +6,7 @@ use App\Model\Card;
 <body>
 <?php include_once 'partials/nav.tpl.php'; ?>
     <div class="b-flex-center-center-col cards-table">
-        <form action="/subscriptions/formHandler" method="post" class="w-100 b-flex-center-center-col">
+        <form action="/subscriptions/subscribe" method="post" class="w-100 b-flex-center-center-col">
             <?php if (isset($subscription)) : ?>
                 <?php $amount = ($subscription == 'trial') ? 0 : 1; ?>
             <?php endif; ?>

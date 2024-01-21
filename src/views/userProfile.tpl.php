@@ -20,6 +20,9 @@ include_once 'partials/header.tpl.php';
                 <div class="data Email">
                     <p><?php echo $userData->getEmail() ?></p>
                 </div>
+                <div class="data password">
+                    <p>*****</p>
+                </div>
             </div>
             
             <a class="cssbuttons-io-button" href="/updateUserProfile">
