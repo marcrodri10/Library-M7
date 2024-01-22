@@ -1,7 +1,7 @@
 -- Active: 1703865360951@@127.0.0.1@3306@library
 --DROP DATABASE library;
 --GRANT ALL PRIVILEGES ON LIBRARY.* TO 'library'@'localhost';
-CREATE DATABASE library;
+--CREATE DATABASE library;
 USE library;
 
 CREATE TABLE Users (

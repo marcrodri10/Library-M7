@@ -1,48 +1,51 @@
 <?php
-    namespace App\Controllers;
-    use App\Request;
-    use App\Controller;
-    use App\View;
-    use App\Registry;
-    use App\Session;
-    use App\FormHandler;
-    class CatalogController extends Controller {
-      
-        function __construct($session,$request)
-        {
-            parent::__construct($session,$request);
-        }        
+namespace App\Controllers;
+use App\Request;
+use App\Controller;
+use App\View;
+use App\Registry;
+use App\Session;
+use App\FormHandler;
+
+class CatalogController extends Controller {
+  
+    // Constructor
+    function __construct($session, $request)
+    {
+        parent::__construct($session, $request);
+    }        
+    
+    // Display catalog index
+    function index(){
+        // Check for search query in form submission
+        if(!isset($_POST['reset']) && isset($_POST['search']) && $_POST['search'] != ''){
+            // Retrieve books matching the search query
+            $books = Registry::get('database')
+                ->selectAll('Books')
+                ->condition(['title'], 'Books', ['%'.$_POST['search'].'%'], 'LIKE')
+                ->get();
+            
+            // Set search query in session
+            $this->session::setSession('search', $_POST['search']);
+        }
+        else {
+            // Retrieve all books if no search query is provided
+            $books = Registry::get('database')
+                ->selectAll('Books')
+                ->get();
+            
+            // Delete search query from session
+            $this->session::deleteSession('search');
+        }
         
-        function index(){
-            
-            if(!isset($_POST['reset']) && isset($_POST['search']) && $_POST['search'] != ''){
-                $books = Registry::get('database')
-                    ->selectAll('Books')
-                    ->condition(['title'], 'Books', ['%'.$_POST['search'].'%'], 'LIKE')
-                    ->get();
-                
-                $this->session::setSession('search', $_POST['search']);
-
-            }
-            else {
-                $books = Registry::get('database')
-                    ->selectAll('Books')
-                    ->get();
-                
-                $this->session::deleteSession('search');
-            }
-            
-            echo View::render('catalog', [
-                "books" => $books,
-            ]);
-            
-        }
-
-        function subscriptionAlert(){
-            
-            header('Location:/catalog');
-            
-        }
-
-       
+        // Render catalog view with retrieved books
+        echo View::render('catalog', [
+            "books" => $books,
+        ]);
     }
+
+    // Redirect to catalog
+    function subscriptionAlert(){
+        header('Location:/catalog');
+    }
+}

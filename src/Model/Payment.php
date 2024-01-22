@@ -2,47 +2,125 @@
 
 namespace App\Model;
 
-class Payment {
+/**
+ * Class Payment
+ * @package App\Model
+ */
+class Payment
+{
+    /**
+     * @var int|null The user ID associated with the payment.
+     */
     protected $user_id;
+
+    /**
+     * @var float|null The payment amount.
+     */
     protected $amount;
+
+    /**
+     * @var string|null The date of the payment.
+     */
     protected $date;
+
+    /**
+     * @var int|null The ID of the associated card.
+     */
     protected $cardId;
-    public function __construct($user_id, $amount, $date, $cardId) {
+
+    /**
+     * Payment constructor.
+     *
+     * @param int|null $user_id The user ID associated with the payment.
+     * @param float|null $amount The payment amount.
+     * @param string|null $date The date of the payment.
+     * @param int|null $cardId The ID of the associated card.
+     */
+    public function __construct($user_id, $amount, $date, $cardId)
+    {
         $this->setUserId($user_id);
         $this->setAmount($amount);
         $this->setDate($date);
         $this->setCardId($cardId);
-    }   
+    }
 
-    public function getUserId() {
+    /**
+     * Get the user ID associated with the payment.
+     *
+     * @return int|null The user ID associated with the payment.
+     */
+    public function getUserId()
+    {
         return $this->user_id;
     }
 
-    public function setUserId($user_id) {
+    /**
+     * Set the user ID associated with the payment.
+     *
+     * @param int|null $user_id The user ID associated with the payment.
+     */
+    public function setUserId($user_id)
+    {
         $this->user_id = $user_id;
     }
 
-    public function getAmount() {
+    /**
+     * Get the payment amount.
+     *
+     * @return float|null The payment amount.
+     */
+    public function getAmount()
+    {
         return $this->amount;
     }
 
-    public function setAmount($amount) {
+    /**
+     * Set the payment amount.
+     *
+     * @param float|null $amount The payment amount.
+     */
+    public function setAmount($amount)
+    {
         $this->amount = $amount;
     }
 
-    public function getDate() {
+    /**
+     * Get the date of the payment.
+     *
+     * @return string|null The date of the payment.
+     */
+    public function getDate()
+    {
         return $this->date;
     }
 
-    public function setDate($date) {
+    /**
+     * Set the date of the payment.
+     *
+     * @param string|null $date The date of the payment.
+     */
+    public function setDate($date)
+    {
         $this->date = $date;
     }
-    public function getCardId() {
+
+    /**
+     * Get the ID of the associated card.
+     *
+     * @return int|null The ID of the associated card.
+     */
+    public function getCardId()
+    {
         return $this->cardId;
     }
 
-    public function setCardId($cardId) {
+    /**
+     * Set the ID of the associated card.
+     *
+     * @param int|null $cardId The ID of the associated card.
+     */
+    public function setCardId($cardId)
+    {
         $this->cardId = $cardId;
     }
 }
-

@@ -1,21 +1,23 @@
 <?php
-    namespace App\Controllers;
-    use App\Request;
-    use App\Session;
-    use App\Controller;
-    use App\View;
+namespace App\Controllers;
+use App\Request;
+use App\Session;
+use App\Controller;
+use App\View;
 
-    class LogoutController extends Controller {
-      
-        function __construct($session,$request)
-        {
-            parent::__construct($session,$request);
-        }        
-        
-        function index(){
-            $this->session::destroySessions();
-            echo View::render('login');
-        }
-
-       
+class LogoutController extends Controller {
+  
+    // Constructor
+    function __construct($session, $request)
+    {
+        parent::__construct($session, $request);
+    }        
+    
+    // Log out user and render login view
+    function index(){
+        // Destroy all sessions
+        $this->session::destroySessions();
+        // Render login view
+        echo View::render('login');
     }
+}

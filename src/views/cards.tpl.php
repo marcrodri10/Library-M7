@@ -1,12 +1,23 @@
-<?php 
+<?php
+
+// Include the header template
 include_once 'partials/header.tpl.php';
 
-use App\Model\Card; 
+// Import the Card model
+use App\Model\Card;
+
 ?>
+
 <body>
-<?php include_once 'partials/nav.tpl.php'; ?>
+
+    <?php
+    // Include the navigation template
+    include_once 'partials/nav.tpl.php';
+    ?>
+
     <div class="b-flex-center-center-col cards-table">
         <form action="/subscriptions/subscribe" method="post" class="w-100 b-flex-center-center-col">
+            
             <?php if (isset($subscription)) : ?>
                 <?php $amount = ($subscription == 'trial') ? 0 : 1; ?>
             <?php endif; ?>
@@ -21,7 +32,10 @@ use App\Model\Card;
                 <tbody>
                     <?php $first = true; ?>
                     <?php foreach ($cards as $card) : ?>
-                        <?php $userCardClass = new Card($card->card_id, $card->name, $card->card, $card->cvv); ?>
+                        <?php
+                        // Create an instance of the Card class
+                        $userCardClass = new Card($card->card_id, $card->name, $card->card, $card->cvv);
+                        ?>
                         <tr>
                             <td>
                                 <div class="form-check">
@@ -41,6 +55,7 @@ use App\Model\Card;
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            
             <div class="options b-flex-center-center-row">
                 <button class="cssbuttons-io-button cards-btn" type="submit">
                     PAY
@@ -63,8 +78,6 @@ use App\Model\Card;
             </div>
 
         </form>
-
-
     </div>
 </body>
 

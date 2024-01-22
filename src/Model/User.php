@@ -1,85 +1,186 @@
 <?php
 
 namespace App\Model;
+
 use App\Checker\Checker;
-class User {
+
+/**
+ * Class User
+ * @package App\Model
+ */
+class User
+{
+    /**
+     * @var int|null The user ID.
+     */
     protected $id;
+
+    /**
+     * @var string The username of the user.
+     */
     protected $username;
+
+    /**
+     * @var string The password of the user.
+     */
     protected $password;
+
+    /**
+     * @var string The email address of the user.
+     */
     protected $email;
+
+    /**
+     * @var string The role of the user.
+     */
     protected $role;
 
-    public function __construct($username, $password, $email, $role, $id = null) {
+    /**
+     * User constructor.
+     *
+     * @param string $username The username of the user.
+     * @param string $password The password of the user.
+     * @param string $email The email address of the user.
+     * @param string $role The role of the user.
+     * @param int|null $id The user ID.
+     * @throws \Exception If any validation fails.
+     */
+    public function __construct($username, $password, $email, $role, $id = null)
+    {
         $message = "";
-        if($this->setUsername($username) == -1) $message .= "Bad Username";
-        if($this->setPassword($password) == -1) $message .= "Bad Password";
-        if($this->setEmail($email) == -1) $message .= "Bad Email";
+        if ($this->setUsername($username) == -1) {
+            $message .= "Bad Username";
+        }
+        if ($this->setPassword($password) == -1) {
+            $message .= "Bad Password";
+        }
+        if ($this->setEmail($email) == -1) {
+            $message .= "Bad Email";
+        }
         $this->setRole($role);
-        if($id != null) $this->setId($id);
+        if ($id !== null) {
+            $this->setId($id);
+        }
 
-        if(strlen($message) > 0) throw new \Exception($message);
+        if (strlen($message) > 0) {
+            throw new \Exception($message);
+        }
     }
 
-    public function getId() {
-        if($this->id != null) return $this->id;  
+    /**
+     * Get the user ID.
+     *
+     * @return int|null The user ID.
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
-    // Setter para establecer el nombre del usuario
-    public function setId($id) {
+    /**
+     * Set the user ID.
+     *
+     * @param int $id The user ID.
+     */
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    // Getter para obtener el nombre del usuario
-    public function getUsername() {
+    /**
+     * Get the username of the user.
+     *
+     * @return string The username of the user.
+     */
+    public function getUsername()
+    {
         return $this->username;
     }
 
-    // Setter para establecer el nombre del usuario
-    public function setUsername($username) {
-        if(Checker::checkString($username)){
+    /**
+     * Set the username of the user.
+     *
+     * @param string $username The username of the user.
+     * @return -1 if the username is invalid.
+     */
+    public function setUsername($username)
+    {
+        if (Checker::checkString($username)) {
             $this->username = $username;
+        } else {
+            return -1;
         }
-        else return -1;
     }
 
-    // Getter para obtener la contraseña del usuario
-    public function getPassword() {
+    /**
+     * Get the password of the user.
+     *
+     * @return string The password of the user.
+     */
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    // Setter para establecer la contraseña del usuario
-    public function setPassword($password) {
-        if(Checker::checkString($password)){
+    /**
+     * Set the password of the user.
+     *
+     * @param string $password The password of the user.
+     * @return -1 if the password is invalid.
+     */
+    public function setPassword($password)
+    {
+        if (Checker::checkString($password)) {
             $this->password = $password;
+        } else {
+            return -1;
         }
-        else return -1;
-        
     }
 
-    // Getter para obtener el correo electrónico del usuario
-    public function getEmail() {
+    /**
+     * Get the email address of the user.
+     *
+     * @return string The email address of the user.
+     */
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    // Setter para establecer el correo electrónico del usuario
-    public function setEmail($email) {
-        if(Checker::checkString($email)){
+    /**
+     * Set the email address of the user.
+     *
+     * @param string $email The email address of the user.
+     * @return -1 if the email address is invalid.
+     */
+    public function setEmail($email)
+    {
+        if (Checker::checkString($email)) {
             $this->email = $email;
+        } else {
+            return -1;
         }
-        else return -1;
-        
     }
 
-    // Getter para obtener el rol del usuario
-    public function getRole() {
+    /**
+     * Get the role of the user.
+     *
+     * @return string The role of the user.
+     */
+    public function getRole()
+    {
         return $this->role;
     }
 
-    // Setter para establecer el rol del usuario
-    public function setRole($role) {
-        if(Checker::checkString($role)){
+    /**
+     * Set the role of the user.
+     *
+     * @param string $role The role of the user.
+     */
+    public function setRole($role)
+    {
+        if (Checker::checkString($role)) {
             $this->role = $role;
         }
-        
     }
 }

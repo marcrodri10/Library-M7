@@ -21,6 +21,7 @@
             </svg>
         </div>
         <?php
+        //if session print
             if(Session::checkSession('error')){
                 echo '<div class="error">
                     <div class="error__icon">

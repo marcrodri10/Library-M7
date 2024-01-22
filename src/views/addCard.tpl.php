@@ -3,6 +3,7 @@ include_once 'partials/header.tpl.php';
 use App\Session;
 use App\Model\Card;
 
+//check subscription type
 if(isset($subscription)){
     if($subscription == 'trial') $amount = 0;
     else $amount = 1;

@@ -7,11 +7,14 @@ use App\Model\Subscription;
 use App\Model\User;
 use DateTime;
 use DateInterval;
-class SubscriptionTestController{
+
+class SubscriptionTestController {
+    // Constructor
     function __construct(){
         
     }
 
+    // Display test data
     function index(){
         $data = [
             'name' => 'Marc',
@@ -32,6 +35,8 @@ class SubscriptionTestController{
 
         $this->subscribe($data, $session_sub, $user);
     }
+
+    // Handle subscription logic
     function subscribe($data, $session_sub, $user){
         $card_fields = [
             'name' => $data['name'],
@@ -50,7 +55,6 @@ class SubscriptionTestController{
                 ->insert('Cards', $card_fields);
         }
         
-        
         $type = explode('-', $data['payment']);
         if($type[0] == 'pay'){
             
@@ -66,7 +70,8 @@ class SubscriptionTestController{
                         'is_active' => 1,
                         'type' => 'trial',
                     ];
-                    echo 'Added to the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
+                    // Display the added subscription information
+                    echo 'Added to the user ' . $user->getUsername() . ' the subscription ' . $fields['type'] . " ($type[2] €)";
     
                 }
                 else if($type[1] == 'month'){
@@ -78,7 +83,8 @@ class SubscriptionTestController{
                         'is_active' => 1,
                         'type' => 'month',
                     ];
-                    echo 'Added to the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
+                    // Display the added subscription information
+                    echo 'Added to the user ' . $user->getUsername() . ' the subscription ' . $fields['type'] . " ($type[2] €)";
                     
                 }      
                 
@@ -96,7 +102,8 @@ class SubscriptionTestController{
                         'is_active' => 1,
                         'type' => 'month',
                     ];
-                    echo 'Update the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
+                    // Display the updated subscription information
+                    echo 'Update the user ' . $user->getUsername() . ' the subscription ' . $fields['type'] . " ($type[2] €)";
                     
                 }
                 else {
@@ -110,8 +117,8 @@ class SubscriptionTestController{
                             'is_active' => 1,
                             'type' => 'month',
                         ];
-
-                        echo 'Update the user '. $user->getUsername() . ' the subscription '. $fields['type']." ($type[2] €)";
+                        // Display the updated subscription information
+                        echo 'Update the user ' . $user->getUsername() . ' the subscription ' . $fields['type'] . " ($type[2] €)";
                     }
                 }
 
@@ -137,7 +144,8 @@ class SubscriptionTestController{
                 $subscription = new Subscription($userSubscription[0]->user_id, $userSubscription[0]->start_date, 
                 $userSubscription[0]->finish_date, $userSubscription[0]->is_active, $userSubscription[0]->type);
 
-                echo "<br>The subscription started on ".$subscription->getStartDate(). " and ends on ".$subscription->getFinishDate();
+                // Display subscription details
+                echo "<br>The subscription started on " . $subscription->getStartDate() . " and ends on " . $subscription->getFinishDate();
             }
             catch(\Exception $e){
                 echo $e->getMessage();
@@ -146,3 +154,4 @@ class SubscriptionTestController{
         } 
     }
 }
+
